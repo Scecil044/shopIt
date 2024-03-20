@@ -4,6 +4,7 @@ import Users from "../pages/admin/Users";
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 import Checkout from "../pages/checkout/Checkout";
+import Product from "../pages/products/Product";
 
 const guestRoutes = [
   {
@@ -40,6 +41,11 @@ const mainRoutes = [
   {
     path: "/checkout",
     element: Checkout,
+    exact: true,
+  },
+  {
+    path: "/product",
+    element: Product,
     exact: true,
   },
 ];

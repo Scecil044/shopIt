@@ -11,6 +11,8 @@ export default {
         pampas: "#e9e5df",
         linen: "#fdfaf5",
         appBlue: "#2a1b52",
+        appRed: "#79031D",
+        appBlack: "#000407",
       },
     },
   },

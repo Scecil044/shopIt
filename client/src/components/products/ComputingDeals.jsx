@@ -1,5 +1,3 @@
-import { Link } from "react-router-dom";
-
 const mock = [
   {
     text: "Men Loafet fit. Ideal for sports, casual war, and driving",
@@ -62,7 +60,7 @@ const mock = [
       "https://i.pinimg.com/originals/9c/86/c7/9c86c7d2781a000f6a8bc863b2ad1b2a.jpg",
   },
 ];
-export default function FeaturedProducts() {
+export default function ComputingDeals() {
   return (
     <>
       <div className="snap-x overflow-x-auto w-[99%] mx-auto p-3 scroll-smooth no-scrollbar">
@@ -72,13 +70,13 @@ export default function FeaturedProducts() {
               key={index}
               className="shadow-xl min-w-[220px] p-2 bg-white rounded-sm border border-gray-300 hover:shadow-lg transition-all duration-300 snap-center"
             >
-              <Link to="/product" className="overflow-hidden">
+              <div className="overflow-hidden">
                 <img
                   src={product.image}
                   alt="..."
                   className="w-full h-[200px] object-cover hover:scale-105 transition-all duration-500"
                 />
-              </Link>
+              </div>
               <div>
                 <p className="line-clamp-1">{product.text}</p>
                 <span className="font-semibold">

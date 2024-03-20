@@ -73,3 +73,15 @@ export const loginUser = async (req, res, next) => {
     next(error);
   }
 };
+
+// function to logout user
+export const logoutUser = async (req, res, next) => {
+  try {
+    res
+      .clearCookie("access_token")
+      .status(200)
+      .json("You have been logged out!");
+  } catch (error) {
+    next(error);
+  }
+};
