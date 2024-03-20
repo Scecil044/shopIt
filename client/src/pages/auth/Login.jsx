@@ -1,8 +1,17 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import {
+  loginFulfilledState,
+  loginPendingState,
+  loginRejectedState,
+} from "../../redux/userSlice";
 
 export default function Login() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
 
@@ -20,8 +29,36 @@ export default function Login() {
     }
     if (!formData.password) {
       setPasswordError("The Password field is required");
+      return;
     } else {
       setPasswordError(false);
+    }
+    try {
+      dispatch(loginPendingState());
+      setIsLoading(true);
+      setIsError(false);
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(loginRejectedState(data.message));
+        setIsError(data.message);
+        setIsLoading(false);
+        return;
+      }
+      dispatch(loginFulfilledState(data));
+      navigate("/");
+      setIsLoading(false);
+      setIsError(false);
+    } catch (error) {
+      dispatch(loginRejectedState(error));
+      setIsLoading(false);
+      setIsError(error);
     }
   };
   return (
@@ -65,7 +102,7 @@ export default function Login() {
           </div>
           <button
             disabled={isLoading}
-            className="text-white bg-primary py-1 w-full shadow-md mb-1 flex items-center justify-center gap-2 disabled:cursor-not-allowed hover:opacity-90"
+            className="text-white bg-amber-700 py-1 w-full shadow-md mb-1 flex items-center justify-center gap-2 disabled:cursor-not-allowed hover:opacity-90"
           >
             {isLoading && (
               <div className="h-5 w-5 rounded-full border-r-2 border-b-2 border-white animate-spin"></div>

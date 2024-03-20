@@ -4,8 +4,10 @@ import { Link } from "react-router-dom";
 import { MdLogout } from "react-icons/md";
 import { FaUserCircle } from "react-icons/fa";
 import { IoSearchOutline } from "react-icons/io5";
+import { useSelector } from "react-redux";
 
 export default function Header() {
+  const { user } = useSelector((state) => state.user);
   const [tabIndex, setTabIndex] = useState(false);
   const [toggleMobile, setToggleMobile] = useState(false);
 
@@ -59,13 +61,15 @@ export default function Header() {
             </li>
           </ul>
         </nav>
-        <div className="rounded-full cursor-pointer h-12 w-12">
-          <img
-            src="https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o="
-            alt="..."
-            className="rounded-full object-cover h-12 w-12"
-          />
-        </div>
+        {user && (
+          <div className="rounded-full cursor-pointer h-12 w-12">
+            <img
+              src="https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o="
+              alt="..."
+              className="rounded-full object-cover h-12 w-12"
+            />
+          </div>
+        )}
       </div>
       <button
         onClick={() => {
@@ -88,18 +92,22 @@ export default function Header() {
             <li className="py-2 px-2 w-full hover:bg-green-700 hover:text-white transition-all duration-300">
               <Link>Services</Link>
             </li>
-            <li className="py-2 px-2 w-full hover:bg-green-700 hover:text-white transition-all duration-300">
-              <Link className="flex items-center gap-1">
-                <FaUserCircle className="h-6 w-6" />
-                Profile
-              </Link>
-            </li>
-            <li className="py-2 px-2 w-full hover:bg-green-700 hover:text-white transition-all duration-300">
-              <Link className="flex items-center gap-1">
-                <MdLogout className="h-6 w-6" />
-                Logout
-              </Link>
-            </li>
+            {user && (
+              <li className="py-2 px-2 w-full hover:bg-green-700 hover:text-white transition-all duration-300">
+                <Link className="flex items-center gap-1">
+                  <FaUserCircle className="h-6 w-6" />
+                  Profile
+                </Link>
+              </li>
+            )}
+            {user && (
+              <li className="py-2 px-2 w-full hover:bg-green-700 hover:text-white transition-all duration-300">
+                <Link className="flex items-center gap-1">
+                  <MdLogout className="h-6 w-6" />
+                  Logout
+                </Link>
+              </li>
+            )}
           </ul>
         </nav>
       )}

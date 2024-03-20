@@ -3,6 +3,7 @@ import Dashboard from "../pages/admin/Dashboard";
 import Users from "../pages/admin/Users";
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
+import Checkout from "../pages/checkout/Checkout";
 
 const guestRoutes = [
   {
@@ -34,6 +35,11 @@ const mainRoutes = [
   {
     path: "/",
     element: Home,
+    exact: true,
+  },
+  {
+    path: "/checkout",
+    element: Checkout,
     exact: true,
   },
 ];
