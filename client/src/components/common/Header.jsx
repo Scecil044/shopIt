@@ -38,11 +38,11 @@ export default function Header() {
   };
   return (
     <header
-      className={`shadow-lg flex items-center justify-between px-4 py-2 z-50 top-0 sticky w-full transition-all duration-700 bg-appRed text-white  ${
+      className={`shadow-lg flex items-center justify-between px-1 md:px-4 py-1 md:py-2 z-50 top-0 sticky min-w-full transition-all duration-700 bg-appRed text-white  ${
         tabIndex ? "bg-green-800 text-white" : ""
       }`}
     >
-      <Link to="/" className="pl-4 flex md:text-2xl items-center">
+      <Link to="/" className="md:pl-4 flex md:text-2xl items-center">
         <p className="md:text-4xl">S</p>
         <p>HO</p>
         <p className="text-[#EDB518] font-semibold">PIT</p>
@@ -50,16 +50,19 @@ export default function Header() {
       </Link>
 
       <div className="flex items-center gap-1">
-        <button type="button" className="py-2 px-4 rounded-xl  text-white">
+        <button
+          type="button"
+          className="hidden py-2 px-4 rounded-xl  text-white"
+        >
           Shop
         </button>
         <form className="relative">
           <input
             type="text"
             placeholder="Search..."
-            className="rounded-3xl md:w-full focus:outline-none focus:ring-0 px-7 py-2"
+            className="rounded-3xl focus:outline-none focus:ring-0 px-7 py-1 md:py-2"
           />
-          <IoSearchOutline className="absolute top-3 left-2 h-5 w-5 text-neutral-400" />
+          <IoSearchOutline className="absolute top-2 md:top-3 left-2 h-5 w-5 text-neutral-400" />
         </form>
       </div>
 
@@ -69,7 +72,7 @@ export default function Header() {
             <li>
               <Link className="flex gap-1 items-center">
                 <h2>Help</h2>
-                <IoMdHelpCircleOutline className="h-7 w-7" />
+                <IoMdHelpCircleOutline className="md:h-7 md:w-7 w-6 h-6" />
               </Link>
             </li>
             <li>
@@ -90,7 +93,7 @@ export default function Header() {
             <img
               src="https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o="
               alt="..."
-              className="rounded-full object-cover h-12 w-12"
+              className="rounded-full object-cover h-9 w-9"
             />
           </div>
         ) : (
@@ -110,7 +113,7 @@ export default function Header() {
       </button>
       {/* mobile */}
       {toggleMobile && (
-        <nav className="absolute bg-appRed text-white top-16 left-0 right-0 mx-auto shadow-xl border-gray-200 md:hidden transition-all duration-500 cursor-pointer">
+        <nav className="absolute bg-appRed text-white top-12 left-0 right-0 mx-auto shadow-xl shadow-gray-300 border-gray-200 md:hidden transition-all duration-500 cursor-pointer">
           <ul className="flex flex-col gap-2">
             <li className="py-2 px-2 w-full hover:bg-appBlack hover:text-white transition-all duration-500 cursor-pointer">
               <Link>Home</Link>
