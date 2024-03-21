@@ -16,17 +16,6 @@ export const registerUser = async (req, res, next) => {
       gender,
       isAdmin,
     } = req.body;
-    if (
-      !email ||
-      !password ||
-      !firstName ||
-      !lastName ||
-      !gender ||
-      !phone ||
-      !isAdmin ||
-      !address
-    )
-      return next(errorHandler(400, "Please provide all required fields"));
 
     // check if user exists
     const isUser = await User.findOne({ email });

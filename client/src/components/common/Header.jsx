@@ -110,18 +110,18 @@ export default function Header() {
       {/* mobile */}
       {toggleMobile && (
         <nav className="absolute bg-appRed text-white w-[95%] top-16 left-0 right-0 mx-auto shadow-xl border-gray-200 md:hidden transition-all duration-300">
-          <ul className="flex flex-col p-2 gap-2">
-            <li className="py-2 px-2 w-full hover:bg-appBlack hover:text-white transition-all duration-300">
+          <ul className="flex flex-col gap-2">
+            <li className="py-2 px-1 w-full hover:bg-appBlack hover:text-white transition-all duration-300">
               <Link>Home</Link>
             </li>
-            <li className="py-2 px-2 w-full hover:bg-appBlack hover:text-white transition-all duration-300">
+            <li className="py-2 px-1 w-full hover:bg-appBlack hover:text-white transition-all duration-300">
               <Link>About</Link>
             </li>
-            <li className="py-2 px-2 w-full hover:bg-appBlack hover:text-white transition-all duration-300">
+            <li className="py-2 px-1 w-full hover:bg-appBlack hover:text-white transition-all duration-300">
               <Link>Services</Link>
             </li>
             {user && (
-              <li className="py-2 px-2 w-full hover:bg-appBlack hover:text-white transition-all duration-300">
+              <li className="py-2 px-1 w-full hover:bg-appBlack hover:text-white transition-all duration-300">
                 <Link className="flex items-center gap-1">
                   <FaUserCircle className="h-6 w-6" />
                   Profile
@@ -129,7 +129,7 @@ export default function Header() {
               </li>
             )}
             {user ? (
-              <li className="py-2 px-2 w-full hover:bg-appBlack hover:text-white transition-all duration-300">
+              <li className="py-2 px-1 w-full hover:bg-appBlack hover:text-white transition-all duration-300">
                 <button onClick={logout} className="flex items-center gap-1">
                   <MdLogout className="h-6 w-6" />
                   Logout

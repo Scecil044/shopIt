@@ -1,4 +1,5 @@
 import Home from "../pages/Home";
+import Chats from "../pages/admin/Chats";
 import Dashboard from "../pages/admin/Dashboard";
 import Users from "../pages/admin/Users";
 import Login from "../pages/auth/Login";
@@ -28,6 +29,11 @@ const adminRoutes = [
   {
     path: "/users",
     element: Users,
+    exact: true,
+  },
+  {
+    path: "/chats",
+    element: Chats,
     exact: true,
   },
 ];
