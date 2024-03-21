@@ -9,12 +9,12 @@ const mock = [
   {
     text: "32' Vision Plus Television Set. HDMI, USB3",
     image:
-      "https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/61/203197/1.jpg?2716",
+      "https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/56/514194/1.jpg?4281",
   },
   {
     text: "TECNO POP 52 6' OLED AndoidOne",
     image:
-      "https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/53/1695511/1.jpg?6868",
+      "https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/22/841755/1.jpg?4244",
   },
   {
     text: "Vitron V27 8CLP .night vision display light",
@@ -24,7 +24,7 @@ const mock = [
   {
     text: "Hikers 32' inch Television. OLED display",
     image:
-      "https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/66/7121031/1.jpg?2903",
+      "https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/85/6006071/1.jpg?4308",
   },
   {
     text: "Annov 7 speed portable blender",

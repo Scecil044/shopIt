@@ -2,32 +2,32 @@ const mock = [
   {
     text: "Men Loafet fit. Ideal for sports, casual war, and driving",
     image:
-      "https://ke.jumia.is/unsafe/fit-in/500x500/filters:fill(white)/product/99/002755/1.jpg?0371",
+      "https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/15/9186981/1.jpg?0948",
   },
   {
     text: "32' Vision Plus Television Set. HDMI, USB3",
     image:
-      "https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/61/203197/1.jpg?2716",
+      "https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/90/979296/1.jpg?9843",
   },
   {
     text: "TECNO POP 52 6' OLED AndoidOne",
     image:
-      "https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/53/1695511/1.jpg?6868",
+      "https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/42/843353/1.jpg?6027",
   },
   {
     text: "Vitron V27 8CLP .night vision display light",
     image:
-      "https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/15/224652/1.jpg?7954",
+      "https://ke.jumia.is/unsafe/fit-in/500x500/filters:fill(white)/product/57/965916/1.jpg?6808",
   },
   {
     text: "Hikers 32' inch Television. OLED display",
     image:
-      "https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/66/7121031/1.jpg?2903",
+      "https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/87/900027/1.jpg?6900",
   },
   {
     text: "Annov 7 speed portable blender",
     image:
-      "https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/68/7687951/1.jpg?9846",
+      "https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/02/5502661/1.jpg?7409",
   },
   {
     text: "seven",
@@ -42,7 +42,7 @@ const mock = [
   {
     text: "five",
     image:
-      "https://i.pinimg.com/originals/9c/86/c7/9c86c7d2781a000f6a8bc863b2ad1b2a.jpg",
+      "https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/51/204236/1.jpg?4541",
   },
   {
     text: "six",
@@ -57,7 +57,7 @@ const mock = [
   {
     text: "eight",
     image:
-      "https://i.pinimg.com/originals/9c/86/c7/9c86c7d2781a000f6a8bc863b2ad1b2a.jpg",
+      "https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/13/1957191/1.jpg?5047",
   },
 ];
 export default function ComputingDeals() {

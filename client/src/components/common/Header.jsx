@@ -52,7 +52,7 @@ export default function Header() {
       <div className="flex items-center gap-1">
         <button
           type="button"
-          className="hidden py-2 px-4 rounded-xl  text-white"
+          className="hidden md:inline py-2 px-4 rounded-xl  text-white"
         >
           Shop
         </button>

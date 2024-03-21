@@ -17,7 +17,7 @@ const mock = [
   {
     text: "Sayona PPS V27 8CLP .night vision display light",
     image:
-      "https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/35/6655191/1.jpg?8585",
+      "https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/81/6837661/1.jpg?3132",
   },
   {
     text: "Hikers 32' inch Television. OLED display",
@@ -27,7 +27,7 @@ const mock = [
   {
     text: "Annov 7 speed portable blender",
     image:
-      "https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/68/7687951/1.jpg?9846",
+      "https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/69/6986351/1.jpg?8837",
   },
   {
     text: "seven",
