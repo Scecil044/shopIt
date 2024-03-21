@@ -2,6 +2,9 @@ import { useState } from "react";
 import MessageCard from "../../components/admin/MessageCard";
 import { Alert } from "flowbite-react";
 
+import { Button, Drawer, Radio, Space } from "antd";
+import SearchDrawer from "../../components/admin/SearchDrawer";
+
 const mock = [
   {
     profilePicture: "https://randomuser.me/portraits/women/44.jpg",
@@ -60,8 +63,17 @@ export default function Chats() {
   const [openMessage, setOpenMessage] = useState(false);
   const [activeTab, setActiveTab] = useState(1);
   const [showChatList, setShowChatList] = useState(true);
-  return <>
-    <div className="hidden md:inline bg-white">
+
+  const [placement, setPlacement] = useState("left");
+  const [open, setOpen] = useState(false);
+
+  const showDrawer = () => {
+    setOpen(true);
+  };
+
+  return (
+    <>
+      <div className="hidden md:inline bg-white">
         <Alert color="warning" withBorderAccent>
           <span>
             <span className="font-medium">Module info!</span> This table shows
@@ -81,6 +93,7 @@ export default function Chats() {
             >
               <div className="bg-white top-0 sticky shadow-md p-1">
                 <input
+                  onClick={showDrawer}
                   type="text"
                   placeholder="Search ..."
                   className="focus:outline-none focus:ring-0 focus:border-b-2 w-full"
@@ -123,5 +136,13 @@ export default function Chats() {
         </div>
         {/* <div className="bg-white p-5 shadow-xl">tWO</div> */}
       </div>
-  </>;
+
+      <SearchDrawer
+        open={open}
+        setOpen={setOpen}
+        placement={placement}
+        setPlacement={setPlacement}
+      />
+    </>
+  );
 }
