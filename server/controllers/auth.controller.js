@@ -24,7 +24,7 @@ export const registerUser = async (req, res, next) => {
     const newUser = await User.create({
       firstName,
       lastName,
-      lastName: firstName + Math.floor(100 + Math.random() * 900).toString(),
+      userName: firstName + Math.floor(100 + Math.random() * 900).toString(),
       email,
       password,
       address,

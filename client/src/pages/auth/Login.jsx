@@ -102,7 +102,7 @@ export default function Login() {
           </div>
           <button
             disabled={isLoading}
-            className="text-white bg-amber-700 py-1 w-full shadow-md mb-1 flex items-center justify-center gap-2 disabled:cursor-not-allowed hover:opacity-90"
+            className="text-white bg-appRed py-1 w-full shadow-md mb-1 flex items-center justify-center gap-2 disabled:cursor-not-allowed hover:opacity-90"
           >
             {isLoading && (
               <div className="h-5 w-5 rounded-full border-r-2 border-b-2 border-white animate-spin"></div>

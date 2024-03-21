@@ -38,14 +38,15 @@ export default function Header() {
   };
   return (
     <header
-      className={`shadow-lg flex items-center justify-between px-4 py-2 z-50 top-0 sticky transition-all duration-700 bg-appRed text-white  ${
+      className={`shadow-lg flex items-center justify-between px-4 py-2 z-50 top-0 sticky w-full transition-all duration-700 bg-appRed text-white  ${
         tabIndex ? "bg-green-800 text-white" : ""
       }`}
     >
-      <Link to="/" className="pl-4 flex text-2xl">
-        <p>Sho</p>
-        <p className="text-[#EDB518] font-semibold">pIT</p>
-        <p>Ke</p>
+      <Link to="/" className="pl-4 flex md:text-2xl items-center">
+        <p className="md:text-4xl">S</p>
+        <p>HO</p>
+        <p className="text-[#EDB518] font-semibold">PIT</p>
+        <p>KE</p>
       </Link>
 
       <div className="flex items-center gap-1">
@@ -56,7 +57,7 @@ export default function Header() {
           <input
             type="text"
             placeholder="Search..."
-            className="rounded-3xl w-60 md:w-[600px] focus:outline-none focus:ring-0 px-7 py-2"
+            className="rounded-3xl md:w-full focus:outline-none focus:ring-0 px-7 py-2"
           />
           <IoSearchOutline className="absolute top-3 left-2 h-5 w-5 text-neutral-400" />
         </form>
@@ -109,19 +110,19 @@ export default function Header() {
       </button>
       {/* mobile */}
       {toggleMobile && (
-        <nav className="absolute bg-appRed text-white w-[95%] top-16 left-0 right-0 mx-auto shadow-xl border-gray-200 md:hidden transition-all duration-300">
+        <nav className="absolute bg-appRed text-white top-16 left-0 right-0 mx-auto shadow-xl border-gray-200 md:hidden transition-all duration-500 cursor-pointer">
           <ul className="flex flex-col gap-2">
-            <li className="py-2 px-1 w-full hover:bg-appBlack hover:text-white transition-all duration-300">
+            <li className="py-2 px-2 w-full hover:bg-appBlack hover:text-white transition-all duration-500 cursor-pointer">
               <Link>Home</Link>
             </li>
-            <li className="py-2 px-1 w-full hover:bg-appBlack hover:text-white transition-all duration-300">
+            <li className="py-2 px-2 w-full hover:bg-appBlack hover:text-white transition-all duration-500 cursor-pointer">
               <Link>About</Link>
             </li>
-            <li className="py-2 px-1 w-full hover:bg-appBlack hover:text-white transition-all duration-300">
+            <li className="py-2 px-2 w-full hover:bg-appBlack hover:text-white transition-all duration-500 cursor-pointer">
               <Link>Services</Link>
             </li>
             {user && (
-              <li className="py-2 px-1 w-full hover:bg-appBlack hover:text-white transition-all duration-300">
+              <li className="py-2 px-2 w-full hover:bg-appBlack hover:text-white transition-all duration-500 cursor-pointer">
                 <Link className="flex items-center gap-1">
                   <FaUserCircle className="h-6 w-6" />
                   Profile
@@ -129,14 +130,14 @@ export default function Header() {
               </li>
             )}
             {user ? (
-              <li className="py-2 px-1 w-full hover:bg-appBlack hover:text-white transition-all duration-300">
+              <li className="py-2 px-2 w-full hover:bg-appBlack hover:text-white transition-all duration-500 cursor-pointer">
                 <button onClick={logout} className="flex items-center gap-1">
                   <MdLogout className="h-6 w-6" />
                   Logout
                 </button>
               </li>
             ) : (
-              <li className="py-2 px-2 w-full hover:bg-appBlack hover:text-white transition-all duration-300">
+              <li className="py-2 px-2 w-full hover:bg-appBlack hover:text-white transition-all duration-500 cursor-pointer">
                 <Link to="/auth/login" className="flex items-center gap-1">
                   <CiLogin className="h-6 w-6" />
                   Login
@@ -150,13 +151,13 @@ export default function Header() {
         <div className="hidden md:inline-block absolute w-[200px] bg-appRed text-white shadow-md right-3 top-20 py-1">
           <div className="absolute h-5 w-5 bg-appRed rotate-45 -top-2 right-5 -z-10"></div>
           <ul>
-            <li className="py-2 px-2 w-full hover:bg-appBlack hover:text-white transition-all duration-300">
+            <li className="py-2 px-2 w-full hover:bg-appBlack hover:text-white transition-all duration-500 cursor-pointer">
               <Link className="flex items-center gap-1">
                 <FaUserCircle className="h-6 w-6" />
                 Profile
               </Link>
             </li>
-            <li className="py-2 px-2 w-full hover:bg-appBlack hover:text-white transition-all duration-300">
+            <li className="py-2 px-2 w-full hover:bg-appBlack hover:text-white transition-all duration-500 cursor-pointer">
               <button onClick={logout} className="flex items-center gap-1">
                 <MdLogout className="h-6 w-6" />
                 Logout

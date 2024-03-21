@@ -18,7 +18,7 @@ export const getUsers = async (req, res, next) => {
       .find({
         _id: { $ne: req.user.id },
       })
-      .select("firstName lastName userName email isAdmin");
+      .select("firstName lastName userName email isAdmin profilePicture");
     res.status(200).json(users);
   } catch (error) {
     next(error);
