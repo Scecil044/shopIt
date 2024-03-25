@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 export default function FrontEndChat({ setOpenChat }) {
   return (
     <>
-      <div className=" w-[400px] bg-slate-50 shadow-md hover:shadow-none transition-all duration-700 shadow-appBlack">
+      <div className="md:w-[400px] bg-slate-50 shadow-md hover:shadow-none transition-all duration-700 shadow-appBlack">
         <div className="bg-red-900 p-2 w-full flex items-center justify-end">
           <div className="">
             <button onClick={() => setOpenChat(false)}>

@@ -11,7 +11,7 @@ import FrontEndChat from "./chat/FrontEndChat";
 export default function Home() {
   const [openChat, setOpenChat] = useState(false);
   return (
-    <div className="min-h-screen p-5 relative">
+    <div className="min-h-screen p-2 md:p-5 relative">
       <div>
         <Banner />
       </div>
@@ -44,7 +44,7 @@ export default function Home() {
         )}
       </div>
 
-      <div className={`${openChat ? "fixed top-20 right-10" : "hidden"}`}>
+      <div className={`${openChat ? "fixed top-20 right-2 md:right-10" : "hidden"}`}>
         <FrontEndChat openChat={openChat} setOpenChat={setOpenChat} />
       </div>
     </div>

@@ -5,7 +5,8 @@ export default function ProductsLayout() {
     <>
       <div className="flex gap-5 min-h-screen">
         <aside>one tow three</aside>
-        <main className="bg-green-200 flex-1">
+        <main className="flex-1">
+          content here
           <Outlet />
         </main>
       </div>
