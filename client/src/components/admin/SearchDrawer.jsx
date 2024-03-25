@@ -10,6 +10,8 @@ export default function SearchDrawer({
   setOpen,
   placement,
   setPlacement,
+  openMessage,
+  setOpenMessage,
 }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResult, setSearchResult] = useState([]);
@@ -83,7 +85,7 @@ export default function SearchDrawer({
         });
         return;
       }
-      console.log(data);
+      dispatch(setSelectedChat(data));
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -127,7 +129,11 @@ export default function SearchDrawer({
             <div className="flex flex-col gap-2">
               {searchResult?.map((user, index) => (
                 <div
-                  onClick={() => accessChat(user._id)}
+                  onClick={() => {
+                    accessChat(user._id);
+                    setOpen(false);
+                    setOpenMessage(true);
+                  }}
                   key={index}
                   className="flex gap-2 items-center bg-appBlue text-white p-2 rounded-md shadow-md cursor-pointer"
                 >

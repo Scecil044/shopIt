@@ -1,14 +1,20 @@
 import { IoMdSend } from "react-icons/io";
 import { IoMdAttach } from "react-icons/io";
-export default function MessageCard() {
+export default function MessageCard({ selectedChat }) {
   return (
     <>
       <div className="text-sm flex flex-col gap-3 px-2 h-[500px] overflow-y-auto">
         {/* chat header */}
         <div className="bg-white w-full px-2 py-1 shadow-md flex items-center justify-between">
-          <div>AneMay</div>
+          <div>
+            {!selectedChat?.isGroupChat
+              ? selectedChat?.users[1]?.firstName +
+                " " +
+                selectedChat?.users[1]?.lastName
+              : selectedChat?.chatName}
+          </div>
           <img
-            src="https://randomuser.me/portraits/women/66.jpg"
+            src={selectedChat?.users[1]?.profilePicture}
             alt="..."
             className="h-10 w-10 rounded-full"
           />

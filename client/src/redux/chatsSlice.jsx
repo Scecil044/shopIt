@@ -18,5 +18,5 @@ const chatsSlice = createSlice({
   },
 });
 
-export const { setSelectedChat } = chatsSlice.actions;
+export const { setSelectedChat, chats } = chatsSlice.actions;
 export default chatsSlice.reducer;

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { AiOutlineHeart } from "react-icons/ai";
 
 const mock = [
   {
@@ -87,6 +88,14 @@ export default function FeaturedProducts() {
                 <span className="text-neutral-400">
                   <p className="flex line-through">KSH: 3500</p>
                 </span>
+              </div>
+              <div className="flex items-center justify-between gap-5">
+                <button className="py-1 px-4 text-black font-semibold bg-appYellow shadow-md hover::shadow-none transition-all duration-300 hover:opacity-90 rounded-sm">
+                  Add to cart
+                </button>
+                <button>
+                  <AiOutlineHeart className="h-8 w-8 text-red-800" />
+                </button>
               </div>
             </div>
           ))}

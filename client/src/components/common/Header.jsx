@@ -10,6 +10,7 @@ import { IoMdHelpCircleOutline } from "react-icons/io";
 import { logoutUser } from "../../redux/userSlice";
 import { FaRegUser } from "react-icons/fa6";
 import { CiLogin } from "react-icons/ci";
+import { AiOutlineHeart } from "react-icons/ai";
 
 export default function Header() {
   const { user } = useSelector((state) => state.user);
@@ -56,11 +57,11 @@ export default function Header() {
         >
           Shop
         </button>
-        <form className="relative">
+        <form className="relative md:w-[400px]">
           <input
             type="text"
             placeholder="Search..."
-            className="rounded-3xl focus:outline-none focus:ring-0 px-7 py-1 md:py-2"
+            className="rounded-3xl focus:outline-none focus:ring-0 px-7 py-1 md:py-2 md:w-[400px]"
           />
           <IoSearchOutline className="absolute top-2 md:top-3 left-2 h-5 w-5 text-neutral-400" />
         </form>
@@ -73,6 +74,12 @@ export default function Header() {
               <Link className="flex gap-1 items-center">
                 <h2>Help</h2>
                 <IoMdHelpCircleOutline className="md:h-7 md:w-7 w-6 h-6" />
+              </Link>
+            </li>
+            <li>
+              <Link className="flex gap-1">
+                <AiOutlineHeart className="h-6 w-6 text-white" />
+                <h2>WishList</h2>
               </Link>
             </li>
             <li>

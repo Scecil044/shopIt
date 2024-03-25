@@ -1,68 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MessageCard from "../../components/admin/MessageCard";
 import { Alert } from "flowbite-react";
-
-import { Button, Drawer, Radio, Space } from "antd";
 import SearchDrawer from "../../components/admin/SearchDrawer";
+import ChatComponent from "../../components/admin/ChatComponent";
+import { useSelector } from "react-redux";
 
-const mock = [
-  {
-    profilePicture: "https://randomuser.me/portraits/women/44.jpg",
-    message: "This is a humble request. Please complete my order today",
-  },
-  {
-    profilePicture: "https://randomuser.me/portraits/women/14.jpg",
-    message: "This is a humble request. Please complete my order today",
-  },
-  {
-    profilePicture: "https://randomuser.me/portraits/women/55.jpg",
-    message: "This is a humble request. Please complete my order today",
-  },
-  {
-    profilePicture: "https://randomuser.me/portraits/women/4.jpg",
-    message: "This is a humble request. Please complete my order today",
-  },
-  {
-    profilePicture: "https://randomuser.me/portraits/women/14.jpg",
-    message: "This is a humble request. Please complete my order today",
-  },
-  {
-    profilePicture: "https://randomuser.me/portraits/women/14.jpg",
-    message: "This is a humble request. Please complete my order today",
-  },
-  {
-    profilePicture: "https://randomuser.me/portraits/women/14.jpg",
-    message: "This is a humble request. Please complete my order today",
-  },
-  {
-    profilePicture: "https://randomuser.me/portraits/women/14.jpg",
-    message: "This is a humble request. Please complete my order today",
-  },
-  {
-    profilePicture: "https://randomuser.me/portraits/women/14.jpg",
-    message: "This is a humble request. Please complete my order today",
-  },
-  {
-    profilePicture: "https://randomuser.me/portraits/women/14.jpg",
-    message: "This is a humble request. Please complete my order today",
-  },
-  {
-    profilePicture: "https://randomuser.me/portraits/women/14.jpg",
-    message: "This is a humble request. Please complete my order today",
-  },
-  {
-    profilePicture: "https://randomuser.me/portraits/women/14.jpg",
-    message: "This is a humble request. Please complete my order today",
-  },
-  {
-    profilePicture: "https://randomuser.me/portraits/women/14.jpg",
-    message: "This is a humble request. Please complete my order today",
-  },
-];
 export default function Chats() {
+  const { user } = useSelector((state) => state.user);
+  const { selectedChat } = useSelector((state) => state.chats);
   const [openMessage, setOpenMessage] = useState(false);
   const [activeTab, setActiveTab] = useState(1);
   const [showChatList, setShowChatList] = useState(true);
+  const [chatList, setChatList] = useState([]);
 
   const [placement, setPlacement] = useState("left");
   const [open, setOpen] = useState(false);
@@ -71,6 +20,22 @@ export default function Chats() {
     setOpen(true);
   };
 
+  useEffect(() => {
+    const fetchChats = async () => {
+      try {
+        const res = await fetch(`/api/chats/fetch/chats`);
+        const data = await res.json();
+        if (data.success === false) {
+          console.log(data.message);
+        }
+        setChatList(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchChats();
+  }, []);
+  console.log(chatList.length);
   return (
     <>
       <div className="hidden md:inline bg-white">
@@ -99,30 +64,13 @@ export default function Chats() {
                   className="focus:outline-none focus:ring-0 focus:border-b-2 w-full"
                 />
               </div>
-              {mock?.map((chat, index) => (
-                <div
-                  onClick={() => {
-                    setOpenMessage(true);
-                    setActiveTab(index);
-                    setShowChatList(false);
-                  }}
-                  key={index}
-                  className={`flex items-center gap-1 p-2 cursor-pointer hover:scale-105 transition-all duration-700 shadow-lg ${
-                    activeTab === index ? "border-l-gray-400 border-l-4" : ""
-                  }`}
-                >
-                  <img
-                    src={chat?.profilePicture}
-                    alt="..."
-                    className="h-10 w-10 rounded-full"
-                  />
-                  <div>
-                    <p className="text-sm line-clamp-2">
-                      This is a humble request. Please complete my order today
-                    </p>
-                  </div>
-                </div>
-              ))}
+              <ChatComponent
+                setOpenMessage={setOpenMessage}
+                activeTab={setActiveTab}
+                setActiveTab={setActiveTab}
+                setShowChatList={setShowChatList}
+                chatList={chatList}
+              />
             </div>
 
             <div
@@ -130,7 +78,12 @@ export default function Chats() {
                 !showChatList ? "flex flex-1" : "hidden"
               } md:flex md:flex-1`}
             >
-              {openMessage && <MessageCard />}
+              {openMessage && (
+                <MessageCard
+                  openMessage={openMessage}
+                  selectedChat={selectedChat}
+                />
+              )}
             </div>
           </div>
         </div>
@@ -142,6 +95,8 @@ export default function Chats() {
         setOpen={setOpen}
         placement={placement}
         setPlacement={setPlacement}
+        setOpenMessage={setOpenMessage}
+        selectedChat={selectedChat}
       />
     </>
   );

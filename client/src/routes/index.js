@@ -1,3 +1,4 @@
+import ProductsLayout from "../components/layouts/ProductsLayout";
 import Home from "../pages/Home";
 import Chats from "../pages/admin/Chats";
 import Dashboard from "../pages/admin/Dashboard";
@@ -6,6 +7,7 @@ import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 import Checkout from "../pages/checkout/Checkout";
 import Product from "../pages/products/Product";
+import ProductListing from "../pages/products/ProductListing";
 
 const guestRoutes = [
   {
@@ -53,6 +55,17 @@ const mainRoutes = [
     path: "/product",
     element: Product,
     exact: true,
+  },
+  {
+    path: "/products",
+    element: ProductsLayout,
+    children: [
+      {
+        path: "/",
+        element: ProductListing,
+        exact: true,
+      },
+    ],
   },
 ];
 export { guestRoutes, adminRoutes, mainRoutes };
