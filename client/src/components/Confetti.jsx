@@ -35,7 +35,7 @@ export default function Confetti() {
   }, [windowDimension]);
   return (
     <div>
-      <ReactConfetti tweenDuration={60} numberOfPieces={1000} />
+      <ReactConfetti tweenDuration={60} numberOfPieces={100} gravity={0.03} />
     </div>
   );
 }

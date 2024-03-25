@@ -1,5 +1,6 @@
 import ProductsLayout from "../components/layouts/ProductsLayout";
 import Home from "../pages/Home";
+import NotFound from "../pages/NotFound";
 import Chats from "../pages/admin/Chats";
 import Dashboard from "../pages/admin/Dashboard";
 import Users from "../pages/admin/Users";
@@ -66,6 +67,11 @@ const mainRoutes = [
         exact: true,
       },
     ],
+  },
+  {
+    path: "*",
+    element: NotFound,
+    exact: true,
   },
 ];
 export { guestRoutes, adminRoutes, mainRoutes };
