@@ -6,6 +6,7 @@ import {
   loginPendingState,
   loginRejectedState,
 } from "../../redux/userSlice";
+import Register from "./Register";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -14,6 +15,7 @@ export default function Login() {
   const [isError, setIsError] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
+  const [openRegister, setOpenRegister] = useState(false);
 
   const [formData, setFormData] = useState({});
   // function to login user
@@ -62,7 +64,7 @@ export default function Login() {
     }
   };
   return (
-    <div className="min-h-screen flex flex-col-reverse md:flex-row justify-center items-center bg-white">
+    <div className="min-h-screen flex flex-col-reverse md:flex-row justify-center items-center bg-white text-sm">
       <div className="w-full md:w-[450px]">
         <form
           onSubmit={handleSubmit}
@@ -70,7 +72,7 @@ export default function Login() {
         >
           <div className="flex-shrink-0 flex justify-center">
             <Link to="/" className="font-semibold">
-              ShopIt
+              PRIMEPICK
             </Link>
           </div>
           <span className="text-gray-400 text-lg">Login to your account</span>
@@ -81,7 +83,7 @@ export default function Login() {
               placeholder="Email"
               id="email"
               onChange={handleChange}
-              className="w-full py-1 px-2 focus:outline-none focus:ring-0"
+              className="w-full py-1 px-2 focus:outline-none focus:ring-0 text-sm"
             />
             {emailError && !formData.email && (
               <span className="text-red-600 text-xs">{emailError}</span>
@@ -94,7 +96,7 @@ export default function Login() {
               placeholder="Password"
               id="password"
               onChange={handleChange}
-              className="w-full py-1 px-2 focus:outline-none focus:ring-0"
+              className="w-full py-1 px-2 focus:outline-none focus:ring-0 text-sm"
             />
             {passwordError && !formData.password && (
               <span className="text-red-600 text-xs">{passwordError}</span>
@@ -124,14 +126,18 @@ export default function Login() {
           </span>
         </form>
         <div className="flex items-center justify-center mt-5 flex-col">
-          <h5 className="text-sm text-gray-500">New to AIRTEA?</h5>
           <div className="flex gap-1 flex-col">
-            <button className="shadow-lg hover:shadow-xl py-1 px-6 bg-white rounded-sm mt-1 w-[350px]">
+            <button
+              onClick={() => setOpenRegister(true)}
+              className="shadow-lg hover:shadow-xl py-1 px-6 bg-white rounded-sm mt-1 w-[350px]"
+            >
               Sign Up
             </button>
           </div>
         </div>
       </div>
+
+      {openRegister && <Register />}
     </div>
   );
 }
