@@ -44,7 +44,7 @@ export default function Header() {
       }`}
     >
       <Link to="/" className="md:pl-4 flex md:text-2xl items-center">
-        <p className="md:text-4xl">P</p>
+        <p className="">P</p>
         <p>RI</p>
         <p className="text-[#EDB518] font-semibold">ME</p>
         <p>PICK</p>
@@ -70,7 +70,7 @@ export default function Header() {
 
       <div className="hidden md:flex items-center gap-5">
         <nav>
-          <ul className="flex items-center gap-5 text-lg">
+          <ul className="flex items-center gap-5 text-lg ml12">
             <li>
               <Link className="flex gap-1 items-center">
                 <h2>Help</h2>
@@ -107,7 +107,7 @@ export default function Header() {
         ) : (
           <Link to="/auth/login" className="flex items-center gap-1">
             <FaRegUser className="h-6 w-6" />
-            <h2>Sign in</h2>
+            <h2 className="text-nowrap">Sign in</h2>
           </Link>
         )}
       </div>
