@@ -44,10 +44,10 @@ export default function Header() {
       }`}
     >
       <Link to="/" className="md:pl-4 flex md:text-2xl items-center">
-        <p className="md:text-4xl">S</p>
-        <p>HO</p>
-        <p className="text-[#EDB518] font-semibold">PIT</p>
-        <p>KE</p>
+        <p className="md:text-4xl">P</p>
+        <p>RI</p>
+        <p className="text-[#EDB518] font-semibold">ME</p>
+        <p>PICK</p>
       </Link>
 
       <div className="flex items-center gap-1">

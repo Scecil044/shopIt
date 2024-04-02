@@ -7,11 +7,11 @@ import { useSelector } from "react-redux";
 export default function AdminLayout({ children }) {
   const { user } = useSelector((state) => state.user);
   return user && user.isAdmin ? (
-    <div className="min-h-screen">
+    <div className="min-h-screen min-w-full">
       <AdminHeader />
-      <main className="flex gap-5 bg-pampas">
+      <main className="flex bg-pampas min-w-full overflow-hidden">
         <AdminSidebar />
-        <div className="p-10 w-full">
+        <div className=" p-10 w-full">
           <Routes>
             {adminRoutes.map((route, index) => (
               <Route

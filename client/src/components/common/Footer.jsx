@@ -107,10 +107,10 @@ export default function Footer() {
           <div className="flex items-center py-5">
             <div className="flex-1">
               <Link to="/" className="flex text-4xl items-center">
-                <p className="text-4xl">S</p>
-                <p>HO</p>
-                <p className="text-[#EDB518] font-semibold">PIT</p>
-                <p>KE</p>
+                <p className="text-4xl">P</p>
+                <p>RI</p>
+                <p className="text-[#EDB518] font-semibold">ME</p>
+                <p>PICK</p>
               </Link>
               <div className="my-5 flex flex-col">
                 <span>&copy;SHOPITKE {new Date().getFullYear()}</span>

@@ -1,11 +1,31 @@
 import { useState } from "react";
 
-const useData = () => {
+const useUsers = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [data, setData] = useState([]);
+  const [users, setUsers] = useState([]);
 
-  const getData = async (url) => {
+  const getUsers = async (url) => {
+    try {
+      setIsLoading(true);
+      const res = await fetch(url);
+      const response = await res.json();
+      if (response.success === false) {
+        setIsError(response.message);
+        setIsLoading(false);
+        return;
+      }
+      setUsers(response);
+      setIsLoading(false);
+      setIsError(false);
+    } catch (error) {
+      setIsLoading(false);
+      setIsError(error?.message);
+      console.log(error?.message);
+    }
+  };
+
+  const getUser = async (url) => {
     try {
       const res = await fetch(url);
       const response = await res.json();
@@ -14,7 +34,7 @@ const useData = () => {
         setIsLoading(false);
         return;
       }
-      setData(response);
+      setUsers(response);
       setIsLoading(false);
       setIsError(false);
     } catch (error) {
@@ -24,26 +44,7 @@ const useData = () => {
     }
   };
 
-  const findData = async (url) => {
-    try {
-      const res = await fetch(url);
-      const response = await res.json();
-      if (response.success === false) {
-        setIsError(response.message);
-        setIsLoading(false);
-        return;
-      }
-      setData(response);
-      setIsLoading(false);
-      setIsError(false);
-    } catch (error) {
-      setIsLoading(false);
-      setIsError(error.message);
-      console.log(error.message);
-    }
-  };
-
-  const updateData = async (url, data) => {
+  const updateUser = async (url, data) => {
     try {
       const res = await fetch(url, {
         method: "PUT",
@@ -58,7 +59,7 @@ const useData = () => {
         setIsLoading(false);
         return;
       }
-      setData(response);
+      setUsers(response);
       setIsLoading(false);
       setIsError(false);
     } catch (error) {
@@ -68,7 +69,7 @@ const useData = () => {
     }
   };
 
-  const deleteData = async (url) => {
+  const deleteUser = async (url) => {
     try {
       const res = await fetch(url, {
         method: "DELETE",
@@ -82,7 +83,7 @@ const useData = () => {
         setIsLoading(false);
         return;
       }
-      setData(response);
+      setUsers(response);
       setIsLoading(false);
       setIsError(false);
     } catch (error) {
@@ -92,14 +93,14 @@ const useData = () => {
     }
   };
   return {
-    getData,
-    updateData,
-    data,
-    deleteData,
-    findData,
+    getUsers,
+    updateUser,
+    users,
+    deleteUser,
+    getUser,
     isLoading,
     isError,
   };
 };
 
-export default useData;
+export default useUsers;
