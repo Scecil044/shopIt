@@ -15,6 +15,11 @@ export default {
         appBlack: "#000407",
         appYellow: "#EDB518",
       },
+      fonts: {
+        fairPlay: "fairplay",
+        montserrat: "montserrat",
+        roboto: "roboto",
+      },
     },
   },
   plugins: [require("flowbite/plugin")],

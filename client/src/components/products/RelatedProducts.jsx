@@ -1,35 +1,36 @@
+import { Link } from "react-router-dom";
 import { AiOutlineHeart } from "react-icons/ai";
 
 const mock = [
   {
     text: "Men Loafet fit. Ideal for sports, casual war, and driving",
     image:
-      "https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/15/9186981/1.jpg?0948",
+      "https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/90/979296/1.jpg?9843",
   },
   {
     text: "32' Vision Plus Television Set. HDMI, USB3",
     image:
-      "https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/90/979296/1.jpg?9843",
+      "https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/40/7915911/1.jpg?2728",
   },
   {
     text: "TECNO POP 52 6' OLED AndoidOne",
     image:
-      "https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/42/843353/1.jpg?6027",
+      "https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/02/139949/1.jpg?6012",
   },
   {
     text: "Vitron V27 8CLP .night vision display light",
     image:
-      "https://ke.jumia.is/unsafe/fit-in/500x500/filters:fill(white)/product/57/965916/1.jpg?6808",
+      "https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/15/224652/1.jpg?7954",
   },
   {
     text: "Hikers 32' inch Television. OLED display",
     image:
-      "https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/87/900027/1.jpg?6900",
+      "https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/62/0122051/1.jpg?0835",
   },
   {
     text: "Annov 7 speed portable blender",
     image:
-      "https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/02/5502661/1.jpg?7409",
+      "https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/68/7687951/1.jpg?9846",
   },
   {
     text: "seven",
@@ -44,7 +45,7 @@ const mock = [
   {
     text: "five",
     image:
-      "https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/51/204236/1.jpg?4541",
+      "https://i.pinimg.com/originals/9c/86/c7/9c86c7d2781a000f6a8bc863b2ad1b2a.jpg",
   },
   {
     text: "six",
@@ -59,12 +60,13 @@ const mock = [
   {
     text: "eight",
     image:
-      "https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/13/1957191/1.jpg?5047",
+      "https://i.pinimg.com/originals/9c/86/c7/9c86c7d2781a000f6a8bc863b2ad1b2a.jpg",
   },
 ];
-export default function ComputingDeals() {
+export default function RelatedProducts() {
   return (
     <>
+      <h1 className="ml-5 font-semibold">Related Products</h1>
       <div className="snap-x overflow-x-auto w-[99%] mx-auto p-3 scroll-smooth no-scrollbar">
         <div className="flex space-x-2">
           {mock.map((product, index) => (
@@ -72,13 +74,13 @@ export default function ComputingDeals() {
               key={index}
               className="shadow-xl min-w-[220px] p-2 bg-white rounded-sm border border-gray-300 hover:shadow-lg transition-all duration-300 snap-center"
             >
-              <div className="overflow-hidden">
+              <Link to="/product" className="overflow-hidden">
                 <img
                   src={product.image}
                   alt="..."
                   className="w-full h-[180px] md:h-[200px] object-cover hover:scale-105 transition-all duration-500"
                 />
-              </div>
+              </Link>
               <div>
                 <p className="line-clamp-1">{product.text}</p>
                 <span className="font-semibold">

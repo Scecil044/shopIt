@@ -76,7 +76,7 @@ export default function FlashSales() {
                 <img
                   src={product.image}
                   alt="..."
-                  className="w-full h-[200px] object-cover hover:scale-105 transition-all duration-500"
+                  className="w-full h-[180px] md:h-[200px] object-cover hover:scale-105 transition-all duration-500"
                 />
               </div>
               <div>

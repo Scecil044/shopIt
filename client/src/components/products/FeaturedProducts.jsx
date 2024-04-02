@@ -77,7 +77,7 @@ export default function FeaturedProducts() {
                 <img
                   src={product.image}
                   alt="..."
-                  className="w-full h-[200px] object-cover hover:scale-105 transition-all duration-500"
+                  className="w-full h-[180px] md:h-[200px] object-cover hover:scale-105 transition-all duration-500"
                 />
               </Link>
               <div>

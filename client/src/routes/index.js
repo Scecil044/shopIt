@@ -1,4 +1,4 @@
-import ProductsLayout from "../components/layouts/ProductsLayout";
+import Shop from "../pages/shop/Shop";
 import Home from "../pages/Home";
 import NotFound from "../pages/NotFound";
 import Chats from "../pages/admin/Chats";
@@ -58,15 +58,9 @@ const mainRoutes = [
     exact: true,
   },
   {
-    path: "/products",
-    element: ProductsLayout,
-    children: [
-      {
-        path: "/",
-        element: ProductListing,
-        exact: true,
-      },
-    ],
+    path: "/shop",
+    element: Shop,
+    exact: true,
   },
   {
     path: "*",
@@ -74,4 +68,12 @@ const mainRoutes = [
     exact: true,
   },
 ];
-export { guestRoutes, adminRoutes, mainRoutes };
+
+const productRoutes = [
+  {
+    path: "/list",
+    element: ProductListing,
+    exact: true,
+  },
+];
+export { guestRoutes, adminRoutes, mainRoutes, productRoutes };

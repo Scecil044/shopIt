@@ -51,12 +51,13 @@ export default function Header() {
       </Link>
 
       <div className="flex items-center gap-1">
-        <button
+        <Link
+          to="/shop"
           type="button"
           className="hidden md:inline py-2 px-4 rounded-xl  text-white"
         >
           Shop
-        </button>
+        </Link>
         <form className="relative md:w-[400px]">
           <input
             type="text"
