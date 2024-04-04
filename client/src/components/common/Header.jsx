@@ -75,7 +75,7 @@ export default function Header() {
         >
           Shop
         </Link>
-        <form onSubmit={handleSearch} className="relative md:w-[400px]">
+        <form onSubmit={handleSearch} className="relative md:w-[310px]">
           <input
             type="text"
             id="searchText"
@@ -90,21 +90,21 @@ export default function Header() {
 
       <div className="hidden md:flex items-center gap-5">
         <nav>
-          <ul className="flex items-center gap-5 text-lg ml12">
+          <ul className="flex items-center gap-5 text-lg ml-2">
             <li>
-              <Link className="flex gap-1 items-center">
+              <Link to="/support" className="flex gap-1 items-center">
                 <h2>Help</h2>
-                <IoMdHelpCircleOutline className="md:h-7 md:w-7 w-6 h-6" />
+                <IoMdHelpCircleOutline className="md:h-7 md:w-6 w-6 h-6" />
               </Link>
             </li>
             <li>
-              <Link className="flex gap-1">
+              <Link to="/wish/list" className="flex gap-1">
                 <AiOutlineHeart className="h-6 w-6 text-white" />
                 <h2>WishList</h2>
               </Link>
             </li>
             <li>
-              <Link className="flex gap-1">
+              <Link to="/cart" className="flex gap-1">
                 <BsCart className="h-6 w-6" />
                 <h2>Cart</h2>
               </Link>
@@ -155,9 +155,12 @@ export default function Header() {
             <li className="py-2 px-2 w-full hover:bg-appBlack hover:text-white transition-all duration-500 cursor-pointer">
               <Link>Services</Link>
             </li>
+            <li className="py-2 px-2 w-full hover:bg-appBlack hover:text-white transition-all duration-500 cursor-pointer">
+              <Link to="/support">Support</Link>
+            </li>
             {user && (
               <li className="py-2 px-2 w-full hover:bg-appBlack hover:text-white transition-all duration-500 cursor-pointer">
-                <Link className="flex items-center gap-1">
+                <Link to="/profile" className="flex items-center gap-1">
                   <FaUserCircle className="h-6 w-6" />
                   Profile
                 </Link>
@@ -186,7 +189,7 @@ export default function Header() {
           <div className="absolute h-5 w-5 bg-appRed rotate-45 -top-2 right-5 -z-10"></div>
           <ul>
             <li className="py-2 px-2 w-full hover:bg-appBlack hover:text-white transition-all duration-500 cursor-pointer">
-              <Link className="flex items-center gap-1">
+              <Link to="/profile" className="flex items-center gap-1">
                 <FaUserCircle className="h-6 w-6" />
                 Profile
               </Link>

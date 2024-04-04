@@ -35,33 +35,9 @@ const mock = [
   {
     text: "seven",
     image:
-      "https://i.pinimg.com/originals/9c/86/c7/9c86c7d2781a000f6a8bc863b2ad1b2a.jpg",
+      "https://ke.jumia.is/unsafe/fit-in/150x150/filters:fill(white)/product/72/244454/1.jpg?7064",
   },
-  {
-    text: "eight",
-    image:
-      "https://i.pinimg.com/originals/9c/86/c7/9c86c7d2781a000f6a8bc863b2ad1b2a.jpg",
-  },
-  {
-    text: "five",
-    image:
-      "https://i.pinimg.com/originals/9c/86/c7/9c86c7d2781a000f6a8bc863b2ad1b2a.jpg",
-  },
-  {
-    text: "six",
-    image:
-      "https://i.pinimg.com/originals/9c/86/c7/9c86c7d2781a000f6a8bc863b2ad1b2a.jpg",
-  },
-  {
-    text: "seven",
-    image:
-      "https://i.pinimg.com/originals/9c/86/c7/9c86c7d2781a000f6a8bc863b2ad1b2a.jpg",
-  },
-  {
-    text: "eight",
-    image:
-      "https://i.pinimg.com/originals/9c/86/c7/9c86c7d2781a000f6a8bc863b2ad1b2a.jpg",
-  },
+ 
 ];
 export default function FeaturedProducts() {
   return (

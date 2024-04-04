@@ -7,6 +7,7 @@ import FlashSales from "../components/products/FlashSales";
 import { IoClose } from "react-icons/io5";
 import { LuMessageCircle } from "react-icons/lu";
 import FrontEndChat from "./chat/FrontEndChat";
+import PopularBrands from "../components/products/PopularBrands";
 
 export default function Home() {
   const [openChat, setOpenChat] = useState(false);
@@ -23,11 +24,14 @@ export default function Home() {
         <h1 className="text-lg font-semibold">Featured Products</h1>
         <FeaturedProducts />
       </div>
-
+      <div className="my-10">
+        <PopularBrands />
+      </div>
       <div>
         <h1 className="text-lg font-semibold">Flash Sales</h1>
         <FlashSales />
       </div>
+
       <div>
         <h1 className="text-lg font-semibold">Computing Deals</h1>
         <ComputingDeals />
@@ -44,7 +48,11 @@ export default function Home() {
         )}
       </div>
 
-      <div className={`${openChat ? "fixed top-20 right-2 md:right-10" : "hidden"}`}>
+      <div
+        className={`${
+          openChat ? "fixed top-20 right-2 md:right-10" : "hidden"
+        }`}
+      >
         <FrontEndChat openChat={openChat} setOpenChat={setOpenChat} />
       </div>
     </div>

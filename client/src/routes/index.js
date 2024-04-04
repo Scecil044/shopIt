@@ -10,6 +10,10 @@ import Checkout from "../pages/checkout/Checkout";
 import Product from "../pages/products/Product";
 import ProductListing from "../pages/products/ProductListing";
 import Search from "../pages/products/Search";
+import Support from "../pages/support/Support";
+import Cart from "../pages/checkout/Cart";
+import WishList from "../pages/checkout/WishList";
+import Profile from "../pages/profile/Profile";
 
 const guestRoutes = [
   {
@@ -59,13 +63,33 @@ const mainRoutes = [
     exact: true,
   },
   {
+    path: "/profile",
+    element: Profile,
+    exact: true,
+  },
+  {
     path: "/shop",
     element: Shop,
     exact: true,
   },
   {
+    path: "/cart",
+    element: Cart,
+    exact: true,
+  },
+  {
+    path: "/wish/list",
+    element: WishList,
+    exact: true,
+  },
+  {
     path: "/search",
     element: Search,
+    exact: true,
+  },
+  {
+    path: "/support",
+    element: Support,
     exact: true,
   },
   {

@@ -30,7 +30,7 @@ export default function Search() {
       <div className="flex">
         <aside className="hidden md:inline min-w-[20%]">one</aside>
         <main className="flex-1">
-          <div className="h-72 bg-gradient-to-tr from-appRed to-appBlack/80 flex items-center justify-center relative">
+          <div className="h-72 bg-gradient-to-tr from-appBlue to-appRed flex items-center justify-center relative">
             <form className="flex flex-col w-[70%] z-20">
               <input
                 type="text"
