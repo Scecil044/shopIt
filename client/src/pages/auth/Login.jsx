@@ -72,7 +72,9 @@ export default function Login() {
         >
           <div className="flex-shrink-0 flex justify-center">
             <Link to="/" className="font-semibold">
-              PRIMEPICK
+              <div>
+                PRI<span className="text-appYellow font-bold">ME</span>PICK
+              </div>
             </Link>
           </div>
           <span className="text-gray-400 text-lg">Login to your account</span>
@@ -137,8 +139,9 @@ export default function Login() {
           </div>
         </div>
       </div>
+      <img src="/trolley.png" alt="trolley" className="hidden md:inline" />
 
-      {openRegister && <Register />}
+      {openRegister && <Register setOpenRegister={setOpenRegister} />}
     </div>
   );
 }
