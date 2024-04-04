@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { MdLogout } from "react-icons/md";
 import { FaUserCircle } from "react-icons/fa";
 import { IoSearchOutline } from "react-icons/io5";
@@ -18,8 +18,17 @@ export default function Header() {
   const [toggleMobile, setToggleMobile] = useState(false);
   const [logOutError, setLogOutError] = useState(false);
   const [openDropDown, setOpenDropDown] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const urlParams = new URLSearchParams(window.location.search);
+    urlParams.set("searchTerm", searchTerm);
+    const searchQuery = urlParams.toString();
+    navigate(`/search?${searchQuery}`);
+  };
   //function to logout
   const logout = async () => {
     try {
@@ -37,6 +46,14 @@ export default function Header() {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const searchTermFromURL = urlParams.get("searchTerm");
+    if (searchTermFromURL) {
+      setSearchTerm(searchTermFromURL);
+    }
+  }, [location.search]);
   return (
     <header
       className={`shadow-lg flex items-center justify-between px-1 md:px-4 py-1 md:py-2 z-50 top-0 sticky min-w-full transition-all duration-700 bg-appRed text-white  ${
@@ -58,11 +75,14 @@ export default function Header() {
         >
           Shop
         </Link>
-        <form className="relative md:w-[400px]">
+        <form onSubmit={handleSearch} className="relative md:w-[400px]">
           <input
             type="text"
+            id="searchText"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Search..."
-            className="rounded-3xl focus:outline-none focus:ring-0 px-7 py-1 md:py-2 md:w-[400px]"
+            className="rounded-3xl focus:outline-none focus:ring-0 px-7 py-1 md:py-2 md:w-[400px] text-black"
           />
           <IoSearchOutline className="absolute top-2 md:top-3 left-2 h-5 w-5 text-neutral-400" />
         </form>
@@ -125,6 +145,9 @@ export default function Header() {
           <ul className="flex flex-col gap-2">
             <li className="py-2 px-2 w-full hover:bg-appBlack hover:text-white transition-all duration-500 cursor-pointer">
               <Link>Home</Link>
+            </li>
+            <li className="py-2 px-2 w-full hover:bg-appBlack hover:text-white transition-all duration-500 cursor-pointer">
+              <Link to="/shop">Shop</Link>
             </li>
             <li className="py-2 px-2 w-full hover:bg-appBlack hover:text-white transition-all duration-500 cursor-pointer">
               <Link>About</Link>

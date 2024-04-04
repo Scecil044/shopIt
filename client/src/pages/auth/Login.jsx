@@ -58,9 +58,9 @@ export default function Login() {
       setIsLoading(false);
       setIsError(false);
     } catch (error) {
-      dispatch(loginRejectedState(error));
+      dispatch(loginRejectedState(error?.message));
       setIsLoading(false);
-      setIsError(error);
+      setIsError(error?.message);
     }
   };
   return (
@@ -76,6 +76,7 @@ export default function Login() {
             </Link>
           </div>
           <span className="text-gray-400 text-lg">Login to your account</span>
+          {isError && <div>{isError}</div>}
           <div className="flex flex-col">
             <label className="text-sm">Email</label>
             <input

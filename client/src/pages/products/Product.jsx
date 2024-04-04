@@ -8,7 +8,7 @@ export default function Product() {
   return (
     <div className="min-h-screen p-5 text-sm">
       <div className="flex overflow-x-auto no-scrollbar">
-        <div className="min-w-[400px]">
+        <div className="min-w-[60%] md:min-w-[400px]">
           <div>
             <img
               src="https://ke.jumia.is/unsafe/fit-in/500x500/filters:fill(white)/product/61/204236/1.jpg?4541"

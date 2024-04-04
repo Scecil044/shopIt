@@ -9,6 +9,7 @@ import Register from "../pages/auth/Register";
 import Checkout from "../pages/checkout/Checkout";
 import Product from "../pages/products/Product";
 import ProductListing from "../pages/products/ProductListing";
+import Search from "../pages/products/Search";
 
 const guestRoutes = [
   {
@@ -60,6 +61,11 @@ const mainRoutes = [
   {
     path: "/shop",
     element: Shop,
+    exact: true,
+  },
+  {
+    path: "/search",
+    element: Search,
     exact: true,
   },
   {

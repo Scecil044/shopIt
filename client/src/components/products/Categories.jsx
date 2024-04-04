@@ -47,7 +47,7 @@ export default function Categories() {
           {mock?.map((category, index) => (
             <Link
               key={index}
-              className="rounded-full h-24 min-w-24 text-center text-sm flex items-center justify-center bg-red-900 text-white p-5"
+              className="rounded-full h-20 min-w-20 md:h-24 md:min-w-24 text-center text-xs md:text-sm flex items-center justify-center bg-red-900 text-white p-5"
             >
               {category.name}
             </Link>

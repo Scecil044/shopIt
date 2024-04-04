@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
 import { AiOutlineHeart } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
 const mock = [
   {
@@ -33,45 +33,45 @@ const mock = [
       "https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/68/7687951/1.jpg?9846",
   },
   {
-    text: "seven",
+    text: "Four colored Denim Jeans",
     image:
-      "https://i.pinimg.com/originals/9c/86/c7/9c86c7d2781a000f6a8bc863b2ad1b2a.jpg",
+      "https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/46/335517/1.jpg?1589",
   },
   {
-    text: "eight",
+    text: "Fashion Ladies Denim Jeans",
     image:
-      "https://i.pinimg.com/originals/9c/86/c7/9c86c7d2781a000f6a8bc863b2ad1b2a.jpg",
+      "https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/78/3035001/1.jpg?7781",
   },
   {
-    text: "five",
+    text: "Fashion Mens Casual",
     image:
-      "https://i.pinimg.com/originals/9c/86/c7/9c86c7d2781a000f6a8bc863b2ad1b2a.jpg",
+      "https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/96/159854/1.jpg?3219",
   },
   {
-    text: "six",
+    text: "Graniar anti-blemish",
     image:
-      "https://i.pinimg.com/originals/9c/86/c7/9c86c7d2781a000f6a8bc863b2ad1b2a.jpg",
+      "https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/40/7915911/1.jpg?2728",
   },
   {
-    text: "seven",
+    text: "Fashion Ladies Denim Jeans",
     image:
-      "https://i.pinimg.com/originals/9c/86/c7/9c86c7d2781a000f6a8bc863b2ad1b2a.jpg",
+      "https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/78/3035001/1.jpg?7781",
   },
   {
-    text: "eight",
+    text: "Mens Skinny Official wear",
     image:
-      "https://i.pinimg.com/originals/9c/86/c7/9c86c7d2781a000f6a8bc863b2ad1b2a.jpg",
+      "https://ke.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/05/038832/1.jpg?0286",
   },
 ];
-export default function FeaturedProducts() {
+export default function SearchCard() {
   return (
     <>
-      <div className="snap-x overflow-x-auto w-[99%] mx-auto p-3 scroll-smooth no-scrollbar">
-        <div className="flex space-x-2">
+      <div className="w-full snap-x">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
           {mock.map((product, index) => (
             <div
               key={index}
-              className="shadow-xl min-w-[200px] md:min-w-[220px] p-2 bg-white rounded-sm border border-gray-300 hover:shadow-lg transition-all duration-300 snap-center"
+              className="shadow-xl min-w-[180px] md:min-w-[220px] p-2 bg-white rounded-sm border border-gray-300 hover:shadow-lg transition-all duration-300 snap-center"
             >
               <Link to="/product" className="overflow-hidden">
                 <img

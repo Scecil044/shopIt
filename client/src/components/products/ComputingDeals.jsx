@@ -70,13 +70,13 @@ export default function ComputingDeals() {
           {mock.map((product, index) => (
             <div
               key={index}
-              className="shadow-xl min-w-[220px] p-2 bg-white rounded-sm border border-gray-300 hover:shadow-lg transition-all duration-300 snap-center"
+              className="shadow-xl min-w-[200px] md:min-w-[220px] p-2 bg-white rounded-sm border border-gray-300 hover:shadow-lg transition-all duration-300 snap-center"
             >
               <div className="overflow-hidden">
                 <img
                   src={product.image}
                   alt="..."
-                  className="w-full h-[180px] md:h-[200px] object-cover hover:scale-105 transition-all duration-500"
+                  className="w-full h-[140px] md:h-[200px] object-cover hover:scale-105 transition-all duration-500"
                 />
               </div>
               <div>

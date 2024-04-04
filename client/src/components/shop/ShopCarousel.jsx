@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 export default function ShopCarousel() {
   return (
     <div className="sm:h-64 h-48 xl:h-80 2xl:h-96 flex gap-5">
-      <div className="bg-white shadow-md px-10 overflow-y-scroll no-scrollbar">
+      <div className="hidden md:flex bg-white shadow-md px-10 overflow-y-scroll no-scrollbar">
         <div className="flex flex-col gap-2 p-2">
           {menuItems.map((item, index) => (
             <Link
