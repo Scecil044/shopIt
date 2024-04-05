@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { IoIosClose } from "react-icons/io";
 import TrolleyModal from "../../components/modals/TrolleyModal";
+import { useState } from "react";
 const mock = [
   {
     title: "Soap",
@@ -22,6 +23,11 @@ const mock = [
   },
 ];
 export default function WishList() {
+  const [openModal, setOpenModal] = useState(false);
+
+  const handleAddToCart = () => {
+    setOpenModal(true);
+  };
   return (
     <div className="min-h-screen text-black text-sm">
       <div className="h-44 md:h-60 bg-gradient-to-tr from-appBlue to-appRed">
@@ -34,7 +40,7 @@ export default function WishList() {
         </div>
       </div>
       <div className="w-full md:max-w-7xl md:mx-auto p-5">
-        <div className="flex flex-col-reverse md:flex-row gap-5 items-start w-full">
+        <div className="flex flex-col md:flex-row gap-5 items-start w-full">
           <div className="w-full md:w-[25%] shadow-md shadow-gray-300 p-5 top-10 sticky">
             <span className="font-semibold text-lg">Heads Up!</span>
             <div className="my-3">
@@ -42,7 +48,10 @@ export default function WishList() {
               your trolley, and processing the transactions needed
             </div>
             <div>
-              <Link className="w-full flex items-center justify-center gap-2 bg-appYellow p-1 shadow-lg focus:outline-none hover:opacity-90 hover:underline transition-all duration-300 hover:shadow-md">
+              <Link
+                to="/shop"
+                className="w-full flex items-center justify-center gap-2 bg-appYellow p-1 shadow-lg focus:outline-none hover:opacity-90 hover:underline transition-all duration-300 hover:shadow-md"
+              >
                 Continue Shopping
               </Link>
             </div>
@@ -70,9 +79,12 @@ export default function WishList() {
                       </div>
                       <div>
                         <div className="flex items-center justify-between gap-2 mb-1">
-                          <h1 className="text-lg font-semibold line-clamp-2">
+                          <Link
+                            to="/product"
+                            className="text-lg font-semibold line-clamp-2 hover:underline"
+                          >
                             Joie Nitro E Stroller - Blue
-                          </h1>
+                          </Link>
                           <IoIosClose className="h-5 w-5" />
                         </div>
                         <p className="line-clamp-2">
@@ -81,7 +93,10 @@ export default function WishList() {
                           elegant in design. You little onw will surely like it
                         </p>
                         <div className="flex float-end mt-2">
-                          <button className="py-1 px-4 md:px-6 bg-appYellow">
+                          <button
+                            onClick={handleAddToCart}
+                            className="py-1 px-4 md:px-6 bg-appYellow"
+                          >
                             Add to Trolley
                           </button>
                         </div>
@@ -95,7 +110,9 @@ export default function WishList() {
         </div>
       </div>
 
-      <TrolleyModal />
+      {openModal && (
+        <TrolleyModal setOpenModal={setOpenModal} />
+      )}
     </div>
   );
 }
