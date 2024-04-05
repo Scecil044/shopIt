@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { Link, useNavigate } from "react-router-dom";
 import { MdLogout } from "react-icons/md";
-import { FaUserCircle } from "react-icons/fa";
+import { MdLocalLibrary } from "react-icons/md";
+import { FaHeart, FaUserCircle } from "react-icons/fa";
 import { IoSearchOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { BsCart } from "react-icons/bs";
@@ -11,6 +12,9 @@ import { logoutUser } from "../../redux/userSlice";
 import { FaRegUser } from "react-icons/fa6";
 import { CiLogin } from "react-icons/ci";
 import { AiOutlineHeart } from "react-icons/ai";
+import { FaHome } from "react-icons/fa";
+import { FaRegHeart } from "react-icons/fa";
+import { PiStackLight } from "react-icons/pi";
 
 export default function Header() {
   const { user } = useSelector((state) => state.user);
@@ -141,29 +145,80 @@ export default function Header() {
       </button>
       {/* mobile */}
       {toggleMobile && (
-        <nav className="absolute bg-appRed text-white top-12 left-0 right-0 mx-auto shadow-xl shadow-gray-300 border-gray-200 md:hidden transition-all duration-500 cursor-pointer">
+        <nav className="absolute bg-appRed text-white top-12 left-0 right-0 mx-auto shadow-xl shadow-gray-300 border-gray-200 md:hidden transition-all duration-500 cursor-pointer border-t-2">
           <ul className="flex flex-col gap-2">
             <li className="py-2 px-2 w-full hover:bg-appBlack hover:text-white transition-all duration-500 cursor-pointer">
-              <Link>Home</Link>
+              <button
+                onClick={() => {
+                  setToggleMobile(false);
+                  navigate("/");
+                }}
+                className="flex items-center gap-1"
+              >
+                <FaHome className="h-6 w-6" />
+                Home
+              </button>
             </li>
             <li className="py-2 px-2 w-full hover:bg-appBlack hover:text-white transition-all duration-500 cursor-pointer">
-              <Link to="/shop">Shop</Link>
+              <button
+                onClick={() => {
+                  setToggleMobile(false);
+                  navigate("/shop");
+                }}
+                className="flex items-center gap-1"
+              >
+                <PiStackLight className="h-6 w-6" />
+                Shop
+              </button>
             </li>
             <li className="py-2 px-2 w-full hover:bg-appBlack hover:text-white transition-all duration-500 cursor-pointer">
-              <Link>About</Link>
+              <button
+                onClick={() => {
+                  setToggleMobile(false);
+                  navigate("/wish/list");
+                }}
+                className="flex items-center gap-1"
+              >
+                <FaRegHeart className="h-6 w-6" />
+                Wishlist
+              </button>
             </li>
             <li className="py-2 px-2 w-full hover:bg-appBlack hover:text-white transition-all duration-500 cursor-pointer">
-              <Link>Services</Link>
+              <button
+                onClick={() => {
+                  setToggleMobile(false);
+                  navigate("/cart");
+                }}
+                className="flex items-center gap-1"
+              >
+                <BsCart className="h-6 w-6" />
+                Cart
+              </button>
             </li>
             <li className="py-2 px-2 w-full hover:bg-appBlack hover:text-white transition-all duration-500 cursor-pointer">
-              <Link to="/support">Support</Link>
+              <button
+                onClick={() => {
+                  setToggleMobile(false);
+                  navigate("/support");
+                }}
+                className="flex items-center gap-1"
+              >
+                <MdLocalLibrary className="h-6 w-6" />
+                Support
+              </button>
             </li>
             {user && (
               <li className="py-2 px-2 w-full hover:bg-appBlack hover:text-white transition-all duration-500 cursor-pointer">
-                <Link to="/profile" className="flex items-center gap-1">
+                <button
+                  onClick={() => {
+                    setToggleMobile(false);
+                    navigate("/profile");
+                  }}
+                  className="flex items-center gap-1"
+                >
                   <FaUserCircle className="h-6 w-6" />
                   Profile
-                </Link>
+                </button>
               </li>
             )}
             {user ? (
@@ -189,10 +244,16 @@ export default function Header() {
           <div className="absolute h-5 w-5 bg-appRed rotate-45 -top-2 right-5 -z-10"></div>
           <ul>
             <li className="py-2 px-2 w-full hover:bg-appBlack hover:text-white transition-all duration-500 cursor-pointer">
-              <Link to="/profile" className="flex items-center gap-1">
+              <button
+                onClick={() => {
+                  setOpenDropDown(false);
+                  navigate("/profile");
+                }}
+                className="flex items-center gap-1"
+              >
                 <FaUserCircle className="h-6 w-6" />
                 Profile
-              </Link>
+              </button>
             </li>
             <li className="py-2 px-2 w-full hover:bg-appBlack hover:text-white transition-all duration-500 cursor-pointer">
               <button onClick={logout} className="flex items-center gap-1">

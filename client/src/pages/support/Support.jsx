@@ -8,9 +8,9 @@ export default function Support() {
           <img src="/care.png" alt="customer care" className="object-cover" />
         </div>
       </div>
-      <div className="flex flex-col items-center md:flex-row gap-5">
+      <div className="flex flex-col md:items-center md:flex-row gap-5">
         <div className="flex flex-col p-5 flex-1">
-          <div className="hidden md:inline ml-10">
+          <div className="ml-10">
             <h1 className="text-xl">
               Having troubble navigating through the Primepick?
             </h1>
@@ -23,7 +23,7 @@ export default function Support() {
           </div>
         </div>
         <div className="p-5 flex-1">
-          <form className="flex flex-col gap-3 w-[500px]">
+          <form className="flex flex-col gap-3 min-w-full md:w-[500px]">
             <div className="flex items-center justify-between my-1 text-xs">
               <label className="font-semibold text-xs">First Name</label>
               <div>

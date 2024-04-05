@@ -3,13 +3,14 @@ import { Link } from "react-router-dom";
 export default function NotFound() {
   return (
     <div className="min-h-screen inset-0 w-full fixed bg-pampas z-50 flex items-center justify-center bg-black/10">
-      <div className="flex items-center">
+      <div className="flex flex-col md:flex-row items-center">
+        <h1 className="text-6xl font-semibold flex md:hidden">404</h1>
         <div>
           <img src="/tri.png" alt="" />
         </div>
         <div className="flex gap-5">
-          <div>
-            <h1 className="text-6xl font-semibold">404</h1>
+          <div className="">
+            <h1 className="text-6xl font-semibold hidden md:inline">404</h1>
           </div>
           <div>
             <h1 className="text-xl">Page Not Found</h1>
