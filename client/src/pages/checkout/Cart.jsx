@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 import { FaLock } from "react-icons/fa6";
-
+import { useState } from "react";
+import { MdEdit } from "react-icons/md";
+import { useSelector } from "react-redux";
+import OderConfirmation from "../../components/shop/OderConfirmation";
 const mock = [
   {
     title: "   Joie Nitro E Stroller - Blue",
@@ -25,8 +28,14 @@ const mock = [
   },
 ];
 export default function Cart() {
+  const { user } = useSelector((state) => state.user);
+  const [checkOut, setCheckOut] = useState(false);
+
+  const handlePayment = () => {
+    setCheckOut((prev) => !prev);
+  };
   return (
-    <div className="min-h-screen text-sm">
+    <div className="min-h-screen text-sm relative overflow-hidden">
       <div className="h-44 bg-gradient-to-tr from-appBlue to-appRed">
         <div className="h-60 overflow-hidden flex float-end">
           <img
@@ -36,8 +45,8 @@ export default function Cart() {
           />
         </div>
       </div>
-      <div className="max-w-7xl mx-auto my-2">
-        <div className="flex flex-col-reverse md:flex-row gap-2">
+      <div className="w-full md:max-w-7xl md:mx-auto my-2 p-5">
+        <div className="flex flex-col-reverse md:flex-row gap-2 w-full">
           <div className="flex-1 p-5">
             {mock?.length < 1 ? (
               <>
@@ -112,14 +121,143 @@ export default function Cart() {
               </>
             )}
           </div>
-          <div className="w-full md:w-[40%] top-10 sticky">
-            <div className="p-3 bg-appBlue text-center">
+          <div className="w-full md:w-[40%]">
+            <div className="p-3 bg-appBlue text-center w-full">
               <h1 className="text-white">Your Invoice</h1>
             </div>
-            <div className="p-5"></div>
+            <div className="my-2">
+              <span className="flex items-center justify-between">
+                <h1>Grand Total</h1>
+                <h1 className="font-semibold text-lg">KSH 3470</h1>
+              </span>
+              <div>
+                <button
+                  onClick={() => setCheckOut((prev) => !prev)}
+                  className="bg-appYellow w-full flex items-center justify-center py-1 shadow-md hover:shadow-none hover:opacity-90 transition-all duration-300"
+                >
+                  Checkout
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+
+      {/* checkout */}
+
+      <aside
+        className={`absolute right-0 bg-white p-5 top-52 ${
+          checkOut ? "" : " -mr-[92%] md:-mr-[50%]"
+        }  w-[92%] md:w-[50%] shadow-md shadow-gray-300 border border-gray-300 transition-all duration-1000`}
+      >
+        <span className="flex text-lg font-semibold">
+          PRI <h2 className="text-appYellow font-bold">ME</h2>PIC Checkout
+        </span>
+        <div className="my-2">
+          <span className="flex items-center justify-between">
+            <h1 className="font-semibold text-lg">Delivery Address</h1>
+
+            <Link to="/profile">
+              <MdEdit className="w-5 h-5" />
+            </Link>
+          </span>
+          <div className="md:grid md:grid-cols-2">
+            <span className="flex gap-1">
+              <h1>Name:</h1>
+              <h1>{user?.firstName + " " + user?.lastName}</h1>
+            </span>
+            <span className="flex gap-1">
+              <h1>Phone:</h1>
+              <h1>{user?.phone || "0766728282"}</h1>
+            </span>
+            <span className="flex gap-1">
+              <h1>Email:</h1>
+              <h1>{user?.email}</h1>
+            </span>
+            <span className="flex gap-1">
+              <h1>City:</h1>
+              <h1>{user?.address?.city || "Nairobi"}</h1>
+            </span>
+            <span className="flex gap-1">
+              <h1>Town:</h1>
+              <h1>{user?.address?.town || "Wendani"}</h1>
+            </span>
+            <span className="flex gap-1">
+              <h1>LandMark:</h1>
+              <h1>{user?.address?.landmark || "KU"}</h1>
+            </span>
+          </div>
+        </div>
+        <span className="flex items-center justify-between">
+          <h1 className="font-semibold text-lg">Items to be delivered</h1>
+          <button onClick={() => setCheckOut((prev) => !prev)}>
+            <MdEdit className="w-5 h-5" />
+          </button>
+        </span>
+        <div className="my-1 grid grid-cols-2 gap-3">
+          {mock?.map((item, index) => (
+            <div
+              key={index}
+              className="p-2 border-2 border-dotted border-appBlue"
+            >
+              <div className="flex">
+                <img
+                  src={item?.image}
+                  alt={item?.title}
+                  className="object-cover h-16 w-16"
+                />
+                <div>
+                  <h1 className="line-clamp-2">{item?.title}</h1>
+                </div>
+              </div>
+              <div className="flex float-end">
+                <h1 className="font-bold text-red-700">KSH 234</h1>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="my-2">
+          <h1 className="font-semibold text-lg">Delivery Method</h1>
+          <div className="flex flex-col gap-2 mt-1">
+            <span className="flex items-center gap-2">
+              <input type="radio" id="delivery" />
+              <h1>Home/Office Delivery</h1>
+            </span>
+            <span className="flex items-center gap-2">
+              <input type="radio" id="delivery" />
+              <h1>Pickup</h1>
+            </span>
+          </div>
+        </div>
+        <div className="my-2">
+          <h1 className="font-semibold text-lg">Payment Method</h1>
+          <div className="grid grid-cols-2 gap-2 md:grid-cols-3 my-2">
+            <div className="flex items-center gap-2">
+              <input type="radio" id="Mpesa" />
+              <h1>MPESA on Delivery</h1>
+            </div>
+            <div className="flex items-center gap-2">
+              <input type="radio" id="stripe" />
+              <h1>Stripe Checkout</h1>
+            </div>
+            <div className="flex items-center gap-2">
+              <input type="radio" id="card" />
+              <h1>VISA/ MASTERCARD</h1>
+            </div>
+          </div>
+        </div>
+        <div>
+          <button
+            onClick={handlePayment}
+            className="bg-appYellow text-black focus:ring-1 ring-offset-2 focus:ring-appBlue shadow-md hover:shadow-lg transition-all duration-300 px-6 py-1"
+          >
+            Confirm Order
+          </button>
+        </div>
+      </aside>
+
+      <OderConfirmation />
     </div>
   );
 }
