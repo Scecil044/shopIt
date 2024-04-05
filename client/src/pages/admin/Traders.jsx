@@ -124,8 +124,8 @@ const mock = [
     createdBy: "Kelvin Brian",
   },
 ];
-export default function Users() {
-  const {user} =useSelector((state)=>state.user)
+export default function Traders() {
+  const { user } = useSelector((state) => state.user);
   const [openCreateModal, setOpenCreateModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState(false);
@@ -141,13 +141,13 @@ export default function Users() {
         <span className="flex items-center text-neutral-400 font-bold">
           <h1>Admin</h1>
           <h1 className="p-1">/</h1>
-          <h1>Users</h1>
+          <h1>Traders</h1>
         </span>
       </div>
-      <Alert color="warning" withBorderAccent>
+      <Alert color="success" withBorderAccent>
         <span>
           <span className="font-medium">Module alert!</span> This module shows
-          all users registered in the system
+          all Traders registered in the system
         </span>
       </Alert>
 
@@ -158,7 +158,7 @@ export default function Users() {
             className="flex items-center flex-nowrap justify-center gap-1 py-1 px-5 bg-pink-800 text-white shadow-md transition-all duration-300 hover:shadow-none hover:bg-pink-700"
           >
             <TiUserAdd className="h-5 w-5" />
-            <h1 className="text-nowrap">Create User</h1>
+            <h1 className="text-nowrap">Create Trader</h1>
           </button>
           <div className="float-end my-1">
             <input

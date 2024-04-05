@@ -14,6 +14,10 @@ import Support from "../pages/support/Support";
 import Cart from "../pages/checkout/Cart";
 import WishList from "../pages/checkout/WishList";
 import Profile from "../pages/profile/Profile";
+import Traders from "../pages/admin/Traders";
+import SystemOrders from "../pages/admin/SystemOrders";
+import SystemReports from "../pages/admin/SystemReports";
+import SystemSupport from "../pages/admin/SystemSupport";
 
 const guestRoutes = [
   {
@@ -37,6 +41,26 @@ const adminRoutes = [
   {
     path: "/users",
     element: Users,
+    exact: true,
+  },
+  {
+    path: "/traders",
+    element: Traders,
+    exact: true,
+  },
+  {
+    path: "/system/orders",
+    element: SystemOrders,
+    exact: true,
+  },
+  {
+    path: "/system/support",
+    element: SystemSupport,
+    exact: true,
+  },
+  {
+    path: "/system/reports",
+    element: SystemReports,
     exact: true,
   },
   {
