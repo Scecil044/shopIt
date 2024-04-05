@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-black/10">
+    <div className="min-h-screen inset-0 w-full fixed bg-pampas z-50 flex items-center justify-center bg-black/10">
       <div className="flex items-center">
         <div>
           <img src="/tri.png" alt="" />

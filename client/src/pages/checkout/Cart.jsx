@@ -30,9 +30,11 @@ const mock = [
 export default function Cart() {
   const { user } = useSelector((state) => state.user);
   const [checkOut, setCheckOut] = useState(false);
+  const [confirmOrder, setConfirmOder] = useState(false);
 
   const handlePayment = () => {
     setCheckOut((prev) => !prev);
+    setConfirmOder(true);
   };
   return (
     <div className="min-h-screen text-sm relative overflow-hidden">
@@ -257,7 +259,7 @@ export default function Cart() {
         </div>
       </aside>
 
-      <OderConfirmation />
+      {confirmOrder && <OderConfirmation />}
     </div>
   );
 }
