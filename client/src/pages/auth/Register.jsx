@@ -102,6 +102,23 @@ export default function Register({ setOpenRegister }) {
             />
           </div>
 
+          {selectedRole == 2 && (
+            <div className="flex flex-col gap-1">
+              <div>
+                <span className="flex">
+                  <label>Business Name</label>
+                  <LuAsterisk className="h-2 w-2 text-red-600" />
+                </span>
+              </div>
+              <input
+                type="text"
+                id="businessName"
+                placeholder="Business Name"
+                className="py-1 px-2 focus:ring-0 focus:outline-none border border-gray-400"
+              />
+            </div>
+          )}
+
           <div className="flex flex-col gap-1">
             <div>
               <span className="flex">

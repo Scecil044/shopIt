@@ -1,28 +1,20 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import {
-  loginFulfilledState,
-  loginPendingState,
-  loginRejectedState,
-} from "../../redux/userSlice";
+import { Link } from "react-router-dom";
 import Register from "./Register";
+import useUsers from "../../hooks/useUsers";
 
 export default function Login() {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [openRegister, setOpenRegister] = useState(false);
+  const { isLoading, isError, authenticateUser } = useUsers();
 
   const [formData, setFormData] = useState({});
   // function to login user
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (!formData.email) {
       setEmailError("The email field is required");
@@ -35,33 +27,7 @@ export default function Login() {
     } else {
       setPasswordError(false);
     }
-    try {
-      dispatch(loginPendingState());
-      setIsLoading(true);
-      setIsError(false);
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      const data = await res.json();
-      if (data.success === false) {
-        dispatch(loginRejectedState(data.message));
-        setIsError(data.message);
-        setIsLoading(false);
-        return;
-      }
-      dispatch(loginFulfilledState(data));
-      navigate("/");
-      setIsLoading(false);
-      setIsError(false);
-    } catch (error) {
-      dispatch(loginRejectedState(error?.message));
-      setIsLoading(false);
-      setIsError(error?.message);
-    }
+    authenticateUser(formData);
   };
   return (
     <div className="min-h-screen flex flex-col-reverse md:flex-row justify-center items-center bg-white text-sm">

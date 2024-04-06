@@ -1,5 +1,5 @@
 import Jwt from "jsonwebtoken";
 
-export const generateToken = (userId, adminStatus) => {
-  return Jwt.sign({ id: userId, isAdmin: adminStatus }, process.env.JWT_SECRET);
+export const generateToken = (userId, userRole) => {
+  return Jwt.sign({ id: userId, role: userRole }, process.env.JWT_SECRET);
 };

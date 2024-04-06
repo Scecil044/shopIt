@@ -1,6 +1,7 @@
 import { errorHandler } from "../utils/error.js";
 import User from "../models/User.model.js";
 import { generateToken } from "../utils/token.js";
+import Business from "../models/Business.model.js";
 import bcrypt from "bcryptjs";
 
 // function to register new user
@@ -14,12 +15,13 @@ export const registerUser = async (req, res, next) => {
       address,
       phone,
       gender,
-      isAdmin,
+      role,
     } = req.body;
 
     // check if user exists
     const isUser = await User.findOne({ email });
     if (isUser) return next(errorHandler(400, "Email taken!"));
+
     // create user
     const newUser = await User.create({
       firstName,
@@ -30,9 +32,27 @@ export const registerUser = async (req, res, next) => {
       address,
       phone,
       gender,
+      role,
     });
 
-    res.status(200).json(newUser);
+    // Create business
+    if (role === "trader") {
+      const business = await Business.create({
+        userRef: newUser._id,
+        businessName: req.body.businessName,
+        address: req.body.address,
+        city: req.body.city,
+        logo: req.body.companyLogo,
+      });
+      newUser.businessRef = business._id;
+      await newUser.save();
+    }
+
+    const user = await User.findById(newUser._id).select("-password").populate({
+      path: "businessRef",
+      select: "businessName address city",
+    });
+    res.status(200).json(user);
   } catch (error) {
     next(error);
   }
@@ -49,11 +69,13 @@ export const loginUser = async (req, res, next) => {
     if (!isUser) return next(errorHandler(400, "Invalid credentials!"));
     if (!bcrypt.compareSync(password, isUser.password))
       return next(errorHandler(400, "Invalid credentials"));
-    const returnedUser = await User.findById(isUser._id).select(
-      "firstName lastName email userName address isAdmin gender"
-    );
+    const returnedUser = await User.findById(isUser._id)
+      .select(
+        "firstName lastName email userName address role gender profilePicture"
+      )
+      .populate("businessRef");
     res
-      .cookie("access_token", generateToken(isUser._id, isUser.isAdmin), {
+      .cookie("access_token", generateToken(isUser._id, isUser.role), {
         httpOnly: true,
       })
       .status(200)

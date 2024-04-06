@@ -1,12 +1,18 @@
+import { useSelector } from "react-redux";
 import { guestRoutes } from "../../routes";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 export default function GuestLayout({ children }) {
-  return <div className="min-h-screen">
-     <Routes>
+  const { user } = useSelector((state) => state.user);
+  return !user ? (
+    <div className="min-h-screen">
+      <Routes>
         {guestRoutes.map((route, index) => (
           <Route key={index} path={route.path} element={<route.element />} />
         ))}
       </Routes>
-  </div>;
+    </div>
+  ) : (
+    <Navigate to="/" />
+  );
 }

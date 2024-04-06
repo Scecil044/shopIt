@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 
 export default function AdminLayout({ children }) {
   const { user } = useSelector((state) => state.user);
-  return user && user.isAdmin ? (
+  return user && user.role === "admin" ? (
     <div className="min-h-screen min-w-full">
       <AdminHeader />
       <main className="flex bg-pampas min-w-full overflow-hidden">

@@ -3,6 +3,10 @@ import bcrypt from "bcryptjs";
 
 const userSchema = new mongoose.Schema(
   {
+    businessRef: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Business",
+    },
     firstName: {
       type: String,
       trim: true,
@@ -26,8 +30,19 @@ const userSchema = new mongoose.Schema(
     address: {
       type: String,
     },
+    city: {
+      type: String,
+    },
+    landMark: {
+      type: String,
+    },
+    country: {
+      type: String,
+      default: "Kenya",
+    },
     gender: {
       type: String,
+      enum: ["male", "female"],
     },
     profilePicture: {
       type: String,
@@ -39,9 +54,10 @@ const userSchema = new mongoose.Schema(
       type: Date,
       default: new Date(),
     },
-    isAdmin: {
-      type: Boolean,
-      default: false,
+    role: {
+      type: String,
+      enum: ["admin", "trader", "customer"],
+      default: "customer",
     },
     password: {
       type: String,

@@ -1,10 +1,51 @@
 import { LuAsterisk } from "react-icons/lu";
 import { Link, Navigate } from "react-router-dom";
 import ComponentLoader from "../../components/admin/ComponentLoader";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import {
+  loginFulfilledState,
+  loginPendingState,
+  loginRejectedState,
+} from "../../redux/userSlice";
+import { useToast } from '@chakra-ui/react'
 
 export default function Profile() {
   const { user } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState({});
+  const toast = useToast()
+
+  const updateUser = async (e) => {
+    e.preventDefault();
+    try {
+      dispatch(loginPendingState());
+      setIsLoading(true);
+      const res = await fetch(`/api/users/${user?._id}`, {
+        method: "PUT",
+        headers: {
+          "content-type": "application/json",
+          body: JSON.stringify(formData),
+        },
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(loginRejectedState(data?.message));
+        setIsLoading(false);
+        return;
+      }
+      if (res.ok) {
+        dispatch(loginFulfilledState(data));
+        setIsLoading(false);
+      }
+    } catch (error) {
+      setIsLoading(false);
+      console.log(error);
+    }
+  };
+  console.log(formData);
+
   return user ? (
     <>
       <div className="min-h-screen">
@@ -45,20 +86,30 @@ export default function Profile() {
             </li>
           </ul>
         </nav>
-        <main className="flex flex-col-reverse md:flex-row gap-3 max-w-7xl mx-auto mt-2">
+        <form
+          onSubmit={updateUser}
+          className="flex flex-col-reverse md:flex-row gap-3 max-w-7xl mx-auto mt-2"
+        >
           <section className=" flex flex-1 flex-col gap-3 p-3">
-            <div className="flex flex-col gap-1">
-              <div>
-                <span className="flex">
-                  <label>Account Name</label>
-                </span>
+            {user?.role === "trader" && (
+              <div className="flex flex-col gap-1">
+                <div>
+                  <span className="flex">
+                    <label>Account Name</label>
+                  </span>
+                </div>
+                <input
+                  type="text"
+                  placeholder="Name"
+                  defaultValue={
+                    user?.role === "trader"
+                      ? user?.businessRef?.businessName
+                      : ""
+                  }
+                  className="py-1 px-2 focus:ring-0 focus:outline-none border border-gray-400"
+                />
               </div>
-              <input
-                type="text"
-                placeholder="Name"
-                className="py-1 px-2 focus:ring-0 focus:outline-none border border-gray-400"
-              />
-            </div>
+            )}
 
             <div className="flex flex-col gap-1">
               <div>
@@ -71,6 +122,10 @@ export default function Profile() {
                 type="text"
                 id="firstName"
                 placeholder="First Name"
+                defaultValue={user?.firstName}
+                onChange={(e) =>
+                  setFormData({ ...formData, firstName: e.target.value })
+                }
                 className="py-1 px-2 focus:ring-0 focus:outline-none border border-gray-400"
               />
             </div>
@@ -86,6 +141,10 @@ export default function Profile() {
                 type="text"
                 id="lastName"
                 placeholder="Last Name"
+                defaultValue={user?.lastName}
+                onChange={(e) =>
+                  setFormData({ ...formData, lastName: e.target.value })
+                }
                 className="py-1 px-2 focus:ring-0 focus:outline-none border border-gray-400"
               />
             </div>
@@ -101,6 +160,10 @@ export default function Profile() {
                 type="email"
                 id="email"
                 placeholder="Email"
+                defaultValue={user?.email}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
                 className="py-1 px-2 focus:ring-0 focus:outline-none border border-gray-400"
               />
             </div>
@@ -116,6 +179,11 @@ export default function Profile() {
                 type="text"
                 id="country"
                 placeholder="Country"
+                defaultValue={user?.country || "Kenya"}
+                disabled
+                onChange={(e) =>
+                  setFormData({ ...formData, country: e.target.value })
+                }
                 className="py-1 px-2 focus:ring-0 focus:outline-none border border-gray-400"
               />
             </div>
@@ -131,6 +199,10 @@ export default function Profile() {
                 type="text"
                 id="city"
                 placeholder="City"
+                defaultValue={user?.city}
+                onChange={(e) =>
+                  setFormData({ ...formData, city: e.target.value })
+                }
                 className="py-1 px-2 focus:ring-0 focus:outline-none border border-gray-400"
               />
             </div>
@@ -145,6 +217,10 @@ export default function Profile() {
                 type="text"
                 id="address"
                 placeholder="Address"
+                defaultValue={user?.address}
+                onChange={(e) =>
+                  setFormData({ ...formData, address: e.target.value })
+                }
                 className="py-1 px-2 focus:ring-0 focus:outline-none border border-gray-400"
               />
             </div>
@@ -159,6 +235,10 @@ export default function Profile() {
                 type="text"
                 id="landmark"
                 placeholder="Landmark"
+                defaultValue={user?.landMark}
+                onChange={(e) =>
+                  setFormData({ ...formData, landMark: e.target.value })
+                }
                 className="py-1 px-2 focus:ring-0 focus:outline-none border border-gray-400"
               />
             </div>
@@ -172,36 +252,55 @@ export default function Profile() {
             <div>
               <h1>Account Summary</h1>
             </div>
-            <div className="flex flex-col gap-1 bg-gray-200 shadow-md w-full md:w-1/2 p-3 text-sm">
-              <span className="flex items-center gap-2 justify-between">
-                <h1 className="font-semibold">Account Name</h1>
-                <h1>Not Specified</h1>
-              </span>
-              <span className="flex items-center gap-2 justify-between">
-                <h1 className="font-semibold">User Name</h1>
-                <h1>Spencer Cecil</h1>
-              </span>
-              <span className="flex items-center gap-2 justify-between">
-                <h1 className="font-semibold">Email</h1>
-                <h1>example@gmail.com</h1>
-              </span>
-              <span className="flex items-center gap-2 justify-between">
-                <h1 className="font-semibold">Joined</h1>
-                <h1>21/01/2019</h1>
-              </span>
-              <span className="flex items-center gap-2 justify-between">
-                <h1 className="font-semibold">Address</h1>
-                <h1>Nairobi, Kenya, 4045-00100</h1>
-              </span>
-              <span className="flex items-center gap-2 justify-between">
-                <h1 className="font-semibold"></h1>
-                <h1>Client</h1>
-              </span>
+            <div className="flex">
+              <div className="flex flex-col gap-1 bg-gray-200 shadow-md w-full md:w-1/2 p-3 text-sm">
+                {user.role === "trader" && (
+                  <span className="flex items-center gap-2 justify-between">
+                    <h1 className="font-semibold">Account Name</h1>
+                    <h1>{user?.businessRef?.businessName}</h1>
+                  </span>
+                )}
+                <span className="flex items-center gap-2 justify-between">
+                  <h1 className="font-semibold">User Name</h1>
+                  <h1 className="text-nowrap">
+                    {user?.firstName + " " + user?.lastName}
+                  </h1>
+                </span>
+                <span className="flex items-center gap-2 justify-between">
+                  <h1 className="font-semibold">Email</h1>
+                  <h1>{user?.email}</h1>
+                </span>
+                <span className="flex items-center gap-2 justify-between">
+                  <h1 className="font-semibold">Joined</h1>
+                  <h1>{user?.createdAt}</h1>
+                </span>
+                <span className="flex items-center gap-2 justify-between">
+                  <h1 className="font-semibold">Address</h1>
+                  <h1>{user?.address}</h1>
+                </span>
+                <span className="flex items-center gap-2 justify-between">
+                  <h1 className="font-semibold"></h1>
+                  <h1>{user?.role}</h1>
+                </span>
+              </div>
+              <div className="hidden md:inline">
+                <img
+                  src={
+                    user?.role === "trader"
+                      ? user?.businessRef?.logo
+                      : user?.role === "customer"
+                      ? user?.profilePicture
+                      : ""
+                  }
+                  alt="business logo"
+                  className="rounded-full h-40 w-40 "
+                />
+              </div>
             </div>
           </section>
-        </main>
+        </form>
 
-        <ComponentLoader />
+        {isLoading && <ComponentLoader />}
       </div>
     </>
   ) : (
