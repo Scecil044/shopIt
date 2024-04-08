@@ -44,7 +44,9 @@ export default function Login() {
             </Link>
           </div>
           <span className="text-gray-400 text-lg">Login to your account</span>
-          {isError && <div>{isError}</div>}
+          {isError && (
+            <div className="text-white bg-red-600 px-2">{isError}</div>
+          )}
           <div className="flex flex-col">
             <label className="text-sm">Email</label>
             <input

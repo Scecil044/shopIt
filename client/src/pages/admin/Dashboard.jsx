@@ -1,5 +1,8 @@
 import { Alert } from "flowbite-react";
 import { useEffect, useState } from "react";
+import AdminLoader from "../../components/admin/AdminLoader";
+import useUsers from "../../hooks/useUsers";
+import { Link } from "react-router-dom";
 
 const mock = [
   {
@@ -46,15 +49,20 @@ const mock = [
   },
 ];
 export default function Dashboard() {
+  const { getUsers, users, isLoading } = useUsers();
   const [openInfo, setOpenInfo] = useState(true);
   const [usersCount, setUsersCount] = useState(0);
   const [fulfilledOrders, setFulfilledOrders] = useState(0);
   const [pendingOrdersCount, setPendingOrdersCount] = useState(0);
-  const actualUsersCount = 467; // Replace 100 with the actual number of users from your system
+  const traders = users.filter((trader) => trader?.role === "trader");
+  const actualTradersCount = traders.length;
+  const actualUsersCount = users?.length; // Replace 100 with the actual number of users from your system
   const actualFulfilledOrdersCount = 300; // Replace 100 with the actual number of fulfilled orders from your system
   const actualPendingOrdersCount = 78; // Replace 100 with the actual number of cancelled orders from your system
 
   useEffect(() => {
+    getUsers({});
+
     const interval = setInterval(() => {
       setUsersCount((prevCount) => {
         const increment = Math.ceil(actualUsersCount / 100); // Adjust the increment based on your preference
@@ -79,6 +87,7 @@ export default function Dashboard() {
 
     return () => clearInterval(interval);
   }, [actualUsersCount]);
+
   return (
     <div className="min-h-screen">
       {openInfo && (
@@ -120,23 +129,31 @@ export default function Dashboard() {
                   </span>
                 </div>
               </div>
-              <div className="shadow-lg p-2 flex gap-3 bg-green-900 text-white items-center">
+              <Link
+                to="/admin/users"
+                className="shadow-lg p-2 flex gap-3 bg-green-900 text-white items-center"
+              >
                 <h1 className="text-sm font-semibold">System Users</h1>
                 <div className="border-l-2 p-5">
                   <span className="flex items-center gap-1">
                     <h1 className="font-semibold text-3xl">{usersCount}</h1>
                   </span>
                 </div>
-              </div>
+              </Link>
 
-              <div className="shadow-lg p-2 flex gap-3 bg-indigo-900 text-white items-center">
+              <Link
+                to="/admin/traders"
+                className="shadow-lg p-2 flex gap-3 bg-indigo-900 text-white items-center"
+              >
                 <h1 className="text-sm font-semibold">System Traders</h1>
                 <div className="border-l-2 p-5">
                   <span className="flex items-center gap-1">
-                    <h1 className="font-semibold text-3xl">{usersCount}</h1>
+                    <h1 className="font-semibold text-3xl">
+                      {actualTradersCount}
+                    </h1>
                   </span>
                 </div>
-              </div>
+              </Link>
             </div>
           </div>
         </div>
@@ -187,7 +204,7 @@ export default function Dashboard() {
                 </tr>
               </thead>
               <tbody>
-                {mock?.map((user, index) => (
+                {users?.map((user, index) => (
                   <tr
                     key={index}
                     className={index % 2 == 1 ? "bg-gray-200" : ""}
@@ -203,7 +220,23 @@ export default function Dashboard() {
                     <td>{user.firstName + " " + user.lastName}</td>
                     <td>{user.email}</td>
                     <td>{user.phone}</td>
-                    <td>User</td>
+                    <td className="flex items-start items-center justify-center">
+                      {user?.role === "customer" ? (
+                        <>
+                          <div className="px-1 py-0.5 bg-appYellow rounded-2xl flex items-center justify-center">
+                            Customer
+                          </div>
+                        </>
+                      ) : user?.role === "trader" ? (
+                        <>
+                          <div className="px-4 py-0.5 bg-emerald-500 rounded-2xl flex items-center justify-center">
+                            Trader
+                          </div>
+                        </>
+                      ) : (
+                        ""
+                      )}
+                    </td>
                     <td>System Admin</td>
                   </tr>
                 ))}
@@ -223,6 +256,7 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
+      {isLoading && <AdminLoader />}
     </div>
   );
 }

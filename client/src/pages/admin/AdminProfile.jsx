@@ -1,99 +1,31 @@
-import { LuAsterisk } from "react-icons/lu";
-import { Link, Navigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import useUsers from "../../hooks/useUsers";
 import ComponentLoader from "../../components/admin/ComponentLoader";
-import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
-import {
-  loginFulfilledState,
-  loginPendingState,
-  loginRejectedState,
-} from "../../redux/userSlice";
-import { useToast } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { LuAsterisk } from "react-icons/lu";
 
-export default function Profile() {
-  const { user } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(false);
+export default function AdminProfile() {
+  const { user, isLoading, getUser } = useUsers();
+  const params = useParams();
   const [formData, setFormData] = useState({});
-  const toast = useToast();
 
-  const updateUser = async (e) => {
-    e.preventDefault();
-    try {
-      dispatch(loginPendingState());
-      setIsLoading(true);
-      const res = await fetch(`/api/users/${user?._id}`, {
-        method: "PUT",
-        headers: {
-          "content-type": "application/json",
-          body: JSON.stringify(formData),
-        },
-      });
-      const data = await res.json();
-      if (data.success === false) {
-        dispatch(loginRejectedState(data?.message));
-        setIsLoading(false);
-        return;
-      }
-      if (res.ok) {
-        dispatch(loginFulfilledState(data));
-        setIsLoading(false);
-        toast({
-          title: "Details Updated.",
-          description: "Your details have been captured.",
-          status: "success",
-          duration: 5000,
-          isClosable: true,
-          position: "top-right",
-        });
-      }
-    } catch (error) {
-      setIsLoading(false);
-      console.log(error);
-    }
-  };
-  console.log(formData);
+  const updateUser = () => {};
+  useEffect(() => {
+    getUser(params.id);
+  }, [params.id]);
 
-  return user ? (
+  return (
     <>
-      <div className="min-h-screen">
-        <div className="md:h-60 h-48 bg-gradient-to-tr from-appBlue to-appRed relative">
-          <div className="md:h-60 h-56 overflow-hidden flex absolute top-16 md:top-2">
-            <img
-              src="/cart.png"
-              alt="customer care"
-              className="object-cover h-3/5 md:h-full"
-            />
-          </div>
+      <div className="md:h-40 h-32 bg-gradient-to-tr from-appBlue to-appRed relative">
+        <div className="rounded-full h-20 w-20 absolute border-2 border-white flex items-center justify-center -bottom-10 left-2">
+          <img
+            src={user?.profilePicture}
+            alt="avatar"
+            className="rounded-full h-2- w-20"
+          />
         </div>
-        <nav className="flex items-center shadow-md">
-          <ul className="flex items-center">
-            <li className="py-2 px-6 hover:bg-appRed hover:text-white transition-all duration-500">
-              <Link>Account</Link>
-            </li>
-            <li className="py-2 px-6 hover:bg-appRed hover:text-white transition-all duration-500">
-              <Link>Orders</Link>
-            </li>
-            <li className="py-2 px-6 hover:bg-appRed hover:text-white transition-all duration-500">
-              <Link>Vouchers</Link>
-            </li>
-            <li className="py-2 px-6 hover:bg-appRed hover:text-white transition-all duration-500">
-              <Link>History</Link>
-            </li>
-            <li className="py-2 px-6 hover:bg-appRed hover:text-white transition-all duration-500">
-              <Link>Saved</Link>
-            </li>
-            <li className="py-2 px-6 hover:bg-appRed hover:text-white transition-all duration-500">
-              <Link>Recalls</Link>
-            </li>
-            <li className="py-2 px-6 hover:bg-appRed hover:text-white transition-all duration-500">
-              <Link>Reviews</Link>
-            </li>
-            <li className="py-2 px-6 hover:bg-appRed hover:text-white transition-all duration-500">
-              <Link>Inbox</Link>
-            </li>
-          </ul>
-        </nav>
+      </div>
+      <div className="bg-white p-5 my-2">
         <form
           onSubmit={updateUser}
           className="flex flex-col-reverse md:flex-row gap-3 max-w-7xl mx-auto mt-2"
@@ -103,7 +35,7 @@ export default function Profile() {
               <div className="flex flex-col gap-1">
                 <div>
                   <span className="flex">
-                    <label>Account Name</label>
+                    <label>Business Name</label>
                   </span>
                 </div>
                 <input
@@ -114,7 +46,7 @@ export default function Profile() {
                       ? user?.businessRef?.businessName
                       : ""
                   }
-                  className="py-1 px-2 focus:ring-0 focus:outline-none border border-gray-400"
+                  className="py-1 px-2 focus:ring-0 focus:outline-none border border-gray-400 bg-gray-200 font-bold"
                 />
               </div>
             )}
@@ -207,7 +139,7 @@ export default function Profile() {
                 type="text"
                 id="city"
                 placeholder="City"
-                defaultValue={user?.city}
+                defaultValue={user?.businessRef?.city}
                 onChange={(e) =>
                   setFormData({ ...formData, city: e.target.value })
                 }
@@ -264,8 +196,10 @@ export default function Profile() {
               <div className="flex flex-col gap-1 bg-gray-200 shadow-md w-full md:w-1/2 p-3 text-sm">
                 {user.role === "trader" && (
                   <span className="flex items-center gap-2 justify-between">
-                    <h1 className="font-semibold">Account Name</h1>
-                    <h1>{user?.businessRef?.businessName}</h1>
+                    <h1 className="font-semibold">Business Name</h1>
+                    <h1 className="font-semibold">
+                      {user?.businessRef?.businessName}
+                    </h1>
                   </span>
                 )}
                 <span className="flex items-center gap-2 justify-between">
@@ -307,11 +241,9 @@ export default function Profile() {
             </div>
           </section>
         </form>
-
-        {isLoading && <ComponentLoader />}
       </div>
+
+      {isLoading && <ComponentLoader />}
     </>
-  ) : (
-    <Navigate to="/" />
   );
 }

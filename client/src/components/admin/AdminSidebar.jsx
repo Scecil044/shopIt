@@ -6,6 +6,8 @@ import { MdLocalLibrary } from "react-icons/md";
 import { HiDocumentDuplicate } from "react-icons/hi";
 import { FaChevronDown } from "react-icons/fa";
 import { useState } from "react";
+import { MdBusiness } from "react-icons/md";
+import { FaUsersGear } from "react-icons/fa6";
 
 export default function AdminSidebar() {
   const [usersDropDown, setUsersDropDown] = useState(true);
@@ -26,7 +28,7 @@ export default function AdminSidebar() {
             onClick={() => {
               setUsersDropDown((prev) => !prev);
             }}
-            className="py-2 w-full hover:bg-black/50 hover:cursor-pointer"
+            className="hidden md:inline py-2 w-full hover:bg-black/50 hover:cursor-pointer"
           >
             <Link className="flex items-center justify-between gap-1 px-2">
               <div className="flex items-center gap-1">
@@ -41,7 +43,7 @@ export default function AdminSidebar() {
             </Link>
           </li>
           {usersDropDown && (
-            <div className="ml-3">
+            <div className="ml-3 hidden md:inline">
               <ul>
                 <li className="py-2 w-full hover:bg-black/50 hover:cursor-pointer">
                   <Link
@@ -62,6 +64,18 @@ export default function AdminSidebar() {
               </ul>
             </div>
           )}
+          <li className="md:hidden py-2 w-full hover:bg-black/50 hover:cursor-pointer">
+            <Link to="/admin/users" className="flex items-center gap-1 px-2">
+              <FaUsersGear className="h-5 w-5" />
+              <h1 className="hidden md:inline">Customers</h1>
+            </Link>
+          </li>
+          <li className="md:hidden py-2 w-full hover:bg-black/50 hover:cursor-pointer">
+            <Link to="/admin/traders" className="flex items-center gap-1 px-2">
+              <MdBusiness className="h-5 w-5" />
+              <h1 className="hidden md:inline">Traders</h1>
+            </Link>
+          </li>
           <li className="py-2 w-full hover:bg-black/50 hover:cursor-pointer">
             <Link
               to="/admin/system/orders"

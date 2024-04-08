@@ -16,6 +16,8 @@ export const registerUser = async (req, res, next) => {
       phone,
       gender,
       role,
+      city,
+      landMark,
     } = req.body;
 
     // check if user exists
@@ -33,6 +35,8 @@ export const registerUser = async (req, res, next) => {
       phone,
       gender,
       role,
+      city,
+      landMark,
     });
 
     // Create business

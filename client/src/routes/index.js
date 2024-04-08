@@ -18,6 +18,7 @@ import Traders from "../pages/admin/Traders";
 import SystemOrders from "../pages/admin/SystemOrders";
 import SystemReports from "../pages/admin/SystemReports";
 import SystemSupport from "../pages/admin/SystemSupport";
+import AdminProfile from "../pages/admin/AdminProfile";
 
 const guestRoutes = [
   {
@@ -41,6 +42,11 @@ const adminRoutes = [
   {
     path: "/users",
     element: Users,
+    exact: true,
+  },
+  {
+    path: "/profile/:id",
+    element: AdminProfile,
     exact: true,
   },
   {

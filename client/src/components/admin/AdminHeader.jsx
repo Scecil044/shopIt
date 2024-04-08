@@ -63,7 +63,7 @@ export default function AdminHeader() {
 
         {/* dropdown */}
         {dropDown && (
-          <div className="absolute w-[200px] bg-white right-5 top-16 shadow-md hidden md:inline">
+          <div className="absolute w-[200px] z-10 bg-white right-5 top-16 shadow-md hidden md:inline">
             <nav className="text-black">
               <ul className="flex flex-col">
                 <li className="p-2 hover:bg-appRed hover:text-white transition-all duration-500 cursor-pointer">
@@ -103,10 +103,13 @@ export default function AdminHeader() {
               </li>
               {user && (
                 <li className="p-2 w-full hover:bg-black/50 transition-all duration-300">
-                  <Link className="flex items-center gap-2">
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center gap-2"
+                  >
                     <LuLogOut className="h-5 w-5" />
                     Logout
-                  </Link>
+                  </button>
                 </li>
               )}
             </ul>

@@ -7,6 +7,7 @@ import { connectDb } from "./config/dB.js";
 import routes from "./routes/index.js";
 import cors from "cors";
 import path from "path";
+import nodemailer from "nodemailer";
 
 dotenv.config();
 const app = express();

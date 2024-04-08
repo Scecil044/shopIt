@@ -6,18 +6,21 @@ import {
   loginRejectedState,
 } from "../redux/userSlice";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "@chakra-ui/react";
 
 const useUsers = () => {
+  const toast = useToast();
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [users, setUsers] = useState([]);
+  const [user, setUser] = useState({});
   const navigate = useNavigate();
 
-  const getUsers = async (url) => {
+  const getUsers = async (searchTerm) => {
     try {
       setIsLoading(true);
-      const res = await fetch(url);
+      const res = await fetch(`/api/users?searchTerm=${searchTerm}`);
       const response = await res.json();
       if (response.success === false) {
         setIsError(response.message);
@@ -34,16 +37,17 @@ const useUsers = () => {
     }
   };
 
-  const getUser = async (url) => {
+  const getUser = async (userId) => {
     try {
-      const res = await fetch(url);
+      setIsLoading(true);
+      const res = await fetch(`/api/users/${userId}`);
       const response = await res.json();
       if (response.success === false) {
         setIsError(response.message);
         setIsLoading(false);
         return;
       }
-      setUsers(response);
+      setUser(response);
       setIsLoading(false);
       setIsError(false);
     } catch (error) {
@@ -78,9 +82,9 @@ const useUsers = () => {
     }
   };
 
-  const deleteUser = async (url) => {
+  const deleteUser = async (userId) => {
     try {
-      const res = await fetch(url, {
+      const res = await fetch(`/api/users/${userId}`, {
         method: "DELETE",
         headers: {
           "content-type": "application/json",
@@ -133,8 +137,60 @@ const useUsers = () => {
     }
   };
 
+  const registerUser = async (formData) => {
+    try {
+      setIsLoading(true);
+      setIsError(false);
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        setIsLoading(false);
+        setIsError(data?.message);
+        toast({
+          title: "Oops! something went wrong.",
+          description: data?.message,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+          position: "top-right",
+        });
+        return;
+      }
+      if (data.success !== false) {
+        setIsLoading(false);
+        setIsError(false);
+        toast({
+          title: "Registration successful.",
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+          position: "top-right",
+        });
+        await getUsers();
+      }
+    } catch (error) {
+      setIsLoading(false);
+      setIsError(error?.message);
+      toast({
+        title: "Oops! something broke down.",
+        description: "Check you connection ot refresh.",
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+        position: "top-right",
+      });
+    }
+  };
+
   return {
     getUsers,
+    registerUser,
     updateUser,
     users,
     deleteUser,
@@ -142,6 +198,7 @@ const useUsers = () => {
     isLoading,
     isError,
     authenticateUser,
+    user,
   };
 };
 

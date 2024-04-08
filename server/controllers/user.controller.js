@@ -13,6 +13,7 @@ export const getUsers = async (req, res, next) => {
             { lastName: { $regex: req.query.searchTerm, $options: "i" } },
             { email: { $regex: req.query.searchTerm, $options: "i" } },
             { userName: { $regex: req.query.searchTerm, $options: "i" } },
+            { role: { $regex: req.query.searchTerm, $options: "i" } },
           ],
         }
       : {};
@@ -22,7 +23,7 @@ export const getUsers = async (req, res, next) => {
         _id: { $ne: req.user.id },
       })
       .select(
-        "firstName lastName userName email role profilePicture, gender, address"
+        "firstName lastName email role phone profilePicture gender address createdAt"
       )
       .skip(startIndex)
       .limit(limit)
@@ -33,6 +34,19 @@ export const getUsers = async (req, res, next) => {
   }
 };
 
+export const getUser = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id)
+      .select("-password")
+      .populate("businessRef");
+    if (!user)
+      return next(errorHandler(400, "No user wit matching id was found"));
+
+    res.status(200).json(user);
+  } catch (error) {
+    next(error?.message);
+  }
+};
 export const updateUser = async (req, res, next) => {
   try {
     if (req.params.id !== req.user.id && req.user.role !== "admin")

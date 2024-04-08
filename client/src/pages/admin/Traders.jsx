@@ -9,6 +9,7 @@ import DeleteModal from "../../components/common/DeleteModal";
 import { Alert } from "flowbite-react";
 import useUsers from "../../hooks/useUsers";
 import { useSelector } from "react-redux";
+import CreateTraderModal from "../../components/modals/CreateTraderModal";
 
 const mock = [
   {
@@ -130,10 +131,19 @@ export default function Traders() {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState(false);
   const { isLoading, isError, users, getUsers } = useUsers();
+  const [search, setSearch] = useState("");
+  const [openModal, setOpenModal] = useState(false);
 
+  const filteredTraders = users.filter(
+    (trader) =>
+      trader.firstName.toLowerCase().includes(search.toLowerCase()) ||
+      trader.lastName.toLowerCase().includes(search.toLowerCase()) ||
+      trader.email.toLowerCase().includes(search.toLowerCase())
+  );
   useEffect(() => {
-    getUsers("/api/users");
-  }, []);
+    const searchTerm = "trader";
+    getUsers(searchTerm);
+  }, [openModal, openDeleteModal]);
 
   return (
     <>
@@ -154,7 +164,7 @@ export default function Traders() {
       <div className="bg-white shadow-md p-5 w-full shadow-gray-300 text-sm">
         <div className="flex items-center justify-between gap-5">
           <button
-            onClick={() => setOpenCreateModal(true)}
+            onClick={() => setOpenModal(true)}
             className="flex items-center flex-nowrap justify-center gap-1 py-1 px-5 bg-pink-800 text-white shadow-md transition-all duration-300 hover:shadow-none hover:bg-pink-700"
           >
             <TiUserAdd className="h-5 w-5" />
@@ -164,12 +174,14 @@ export default function Traders() {
             <input
               type="text"
               placeholder="Search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
               className="py-1 px-2 focus:outline-none focus:ring-0 border border-gray-300 focus:border-gray-400"
             />
           </div>
         </div>
         <div className="overflow-x-auto table-auto w-full no-scrollbar">
-          <table className="w-full text-xs">
+          <table className="w-full text-sm">
             <thead>
               <tr className="uppercase bg-gray-200">
                 <th className="text-nowrap text-left border-t-2 p-1">No.</th>
@@ -185,7 +197,7 @@ export default function Traders() {
                 <th className="text-nowrap text-left border-t-2 p-1">Action</th>
               </tr>
             </thead>
-            {mock?.length < 1 ? (
+            {filteredTraders?.length < 1 ? (
               <tbody>
                 <tr>
                   <td colSpan={9}>
@@ -197,30 +209,47 @@ export default function Traders() {
               </tbody>
             ) : (
               <tbody>
-                {mock?.map((user, index) => (
+                {filteredTraders?.map((user, index) => (
                   <tr
                     key={index}
                     className={`${index % 2 === 1 ? "bg-gray-200" : ""}`}
                   >
                     <td className="px-2 py-1">{(index += 1)}</td>
-                    <td className="px-2 py-1">{user?.name}</td>
-                    <td className="px-2 py-1">{user?.name}</td>
+                    <td className="px-2 py-1">
+                      <img
+                        src={user?.profilePicture}
+                        alt="avatar"
+                        className="h-10 w-10"
+                      />
+                    </td>
+                    <td className="px-2 py-1">
+                      {user?.firstName + " " + user?.lastName}
+                    </td>
                     <td className="px-2 py-1">{user?.email}</td>
                     <td className="px-2 py-1">{user?.phone}</td>
                     <td className="px-2 py-1">{user?.role}</td>
-                    <td className="px-2 py-1">{user?.joined}</td>
-                    <td className="px-2 py-1">{user?.createdBy}</td>
-                    <td className="px-2 py-1 flex gap-2">
-                      <Link className="flex items-center gap-1">
+                    <td className="px-2 py-1">
+                      {user.createdAt
+                        ? new Date(user?.createdAt).toLocaleString("en-us")
+                        : ""}
+                    </td>
+                    <td className="px-2 py-1">
+                      {user?.createdBy || "System Admin"}
+                    </td>
+                    <td className="px-2 py-1 flex items-center gap-2">
+                      <Link
+                        to={`/admin/profile/${user?._id}`}
+                        className="flex items-center gap-1 mt-2"
+                      >
                         <FaEye className="h-4 w-4 text-blue-600" />
                         Edit
                       </Link>
                       <button
                         onClick={() => {
                           setOpenDeleteModal(true);
-                          setSelectedUser(user?.name);
+                          setSelectedUser(user?._id);
                         }}
-                        className="flex items-center gap-1"
+                        className="flex items-center gap-1 mt-2"
                       >
                         <MdDelete className="h-4 w-4 text-red-600" />
                         Delete
@@ -247,6 +276,10 @@ export default function Traders() {
           selectedUser={selectedUser}
           role="deleteUser"
         />
+      )}
+
+      {openModal && (
+        <CreateTraderModal openModal={openModal} setOpenModal={setOpenModal} />
       )}
     </>
   );
