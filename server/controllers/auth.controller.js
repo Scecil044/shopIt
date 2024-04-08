@@ -100,3 +100,59 @@ export const logoutUser = async (req, res, next) => {
     next(error);
   }
 };
+
+// function to authenticate with google
+export const googleAuth = async (req, res, next) => {
+  try {
+    const { email, profilePicture, name } = req.body;
+    const firstName = name.charAt(0);
+    const lastName = name.slice(1);
+    // check if user exists
+    const isUser = await User.findOne({ email });
+    if (!isUser) {
+      // generate password
+      const randomPassword = Math.floor(100 + Math.random(900)).toString();
+      const randomPhone =
+        "+254" + Math.floor(Math.random() * 1000000000).toString();
+      // create user
+      const user = await User.create({
+        firstName,
+        lastName,
+        email,
+        profilePicture,
+        password: randomPassword,
+        phone: randomPhone,
+        gender: "undefined",
+      });
+      const newUser = await User.findById(user._id)
+        .select("-password")
+        .populate({
+          path: "businessRef",
+          select: "businessName address city",
+        });
+      res
+        .cookie(
+          "access_token",
+          generateToken(newUser._id, newUser.role, { httpOnly: true })
+        )
+        .status(200)
+        .json(newUser);
+    } else {
+      const existingUser = await User.findById(isUser._id)
+        .select("-password")
+        .populate({
+          path: "businessRef",
+          select: "businessName address city",
+        });
+      res
+        .cookie(
+          "access_token",
+          generateToken(existingUser._id, existingUser.role, { httpOnly: true })
+        )
+        .status(200)
+        .json(existingUser);
+    }
+  } catch (error) {
+    next(error);
+  }
+};

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import Register from "./Register";
 import useUsers from "../../hooks/useUsers";
+import Oauth from "../../components/oauth/Oauth";
 
 export default function Login() {
   const [emailError, setEmailError] = useState(false);
@@ -82,7 +83,7 @@ export default function Login() {
             )}
             Login
           </button>
-          <button type="button">Continue with google</button>
+          <Oauth />
 
           <span className="text-xs">
             Continuing means you agree with AIRTEs{" "}

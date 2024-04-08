@@ -16,6 +16,7 @@
     "@reduxjs/toolkit": "^2.2.1",
     "@tailwindcss/forms": "^0.5.7",
     "antd": "^5.15.3",
+    "firebase": "^10.10.0",
     "flowbite-react": "^0.7.3",
     "framer-motion": "^11.0.25",
     "ldrs": "^1.0.1",

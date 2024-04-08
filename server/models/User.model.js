@@ -42,12 +42,11 @@ const userSchema = new mongoose.Schema(
     },
     gender: {
       type: String,
-      enum: ["male", "female"],
+      enum: ["male", "female", "undefined"],
       required: [true, "The gender field is required"],
     },
     profilePicture: {
       type: String,
-      required: true,
       default:
         "https://png.pngtree.com/png-clipart/20210915/ourmid/pngtree-user-avatar-placeholder-black-png-image_3918427.jpg",
     },
