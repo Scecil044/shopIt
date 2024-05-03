@@ -3,6 +3,7 @@ import User from "../models/User.model.js";
 import { generateToken } from "../utils/token.js";
 import Business from "../models/Business.model.js";
 import bcrypt from "bcryptjs";
+import { verifyByCredentials } from "../services/user.service.js";
 
 // function to register new user
 export const registerUser = async (req, res, next) => {
@@ -69,10 +70,7 @@ export const loginUser = async (req, res, next) => {
     if (!email || !password)
       return next(errorHandler(400, "Please provide all required fields"));
     //check if user exists
-    const isUser = await User.findOne({ email });
-    if (!isUser) return next(errorHandler(400, "Invalid credentials!"));
-    if (!bcrypt.compareSync(password, isUser.password))
-      return next(errorHandler(400, "Invalid credentials"));
+    const isUser = await verifyByCredentials(email, password);
     const returnedUser = await User.findById(isUser._id)
       .select(
         "firstName lastName email userName address role gender profilePicture"
