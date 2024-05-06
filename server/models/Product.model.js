@@ -11,6 +11,7 @@ const productSchema = new mongoose.Schema(
     slug: { type: String, required: true },
     images: [{ type: String, required: true }],
     isFlashSale: { type: Boolean, default: false },
+    quantity: { type: Number, required: true, default: 1 },
   },
   { timestamps: true }
 );

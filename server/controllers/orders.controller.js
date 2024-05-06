@@ -1,9 +1,21 @@
 import Order from "../models/Order.model.js";
+import Product from "../models/Product.model.js";
 import { findOrderById } from "../services/order.service.js";
 import { errorHandler } from "../utils/error.js";
 
-const placeOrder = async (req, res, next) => {
+export const placeOrder = async (req, res, next) => {
   try {
+    // check if item is available
+    const isProduct = await Product.findById(req.params.id);
+    if (!isProduct) return next(errorHandler(404, "Product not found"));
+
+    if (isProduct.quantity < req.body.quantity)
+      return next(
+        errorHandler(
+          400,
+          `Only ${isProduct.quantity} item(s) is available for purchase`
+        )
+      );
   } catch (error) {
     next(error);
   }
@@ -11,6 +23,8 @@ const placeOrder = async (req, res, next) => {
 
 export const cancelOrder = async (req, res, next) => {
   try {
+    const cancelledOrders = await Order.find({ status: "canceled" });
+    res.status(200).json(cancelledOrders);
   } catch (error) {
     next(error);
   }

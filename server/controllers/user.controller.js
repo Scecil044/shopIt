@@ -96,3 +96,26 @@ export const deleteUser = async (req, res, next) => {
     next(error);
   }
 };
+
+// pipelines
+const getInactiveUsers = async(req,res,next){
+  try {
+    const inactiveUsers = await User.aggregate([
+      {
+        $match:{isActive: false}
+      },
+      {
+        $group:{
+          _id: null,
+          count: {$sum: 1},
+          users: {$push: {$$ROOT}}
+        }
+      }
+    ])
+    IF(inactiveUsers.length > 0){
+      res.status(200).json(inactiveUsers[0].users)
+    }
+  } catch (error) {
+    next(error)
+  }
+}
