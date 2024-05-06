@@ -6,6 +6,7 @@ const businessSchema = new mongoose.Schema(
     businessName: { type: String, required: true },
     city: { type: String, required: true },
     address: { type: String, required: true },
+    officialNumber: { type: String, default: undefined },
     logo: {
       type: String,
       default:
@@ -13,6 +14,7 @@ const businessSchema = new mongoose.Schema(
     },
     isDeleted: { type: Boolean, default: false },
     isActive: { type: Boolean, default: true },
+    category: { type: String, default: "whole sale" },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
