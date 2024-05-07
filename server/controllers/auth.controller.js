@@ -4,6 +4,8 @@ import { generateToken } from "../utils/token.js";
 import Business from "../models/Business.model.js";
 import bcrypt from "bcryptjs";
 import { verifyByCredentials } from "../services/user.service.js";
+import { generateResetPasswordToken } from "../services/token.service.js";
+import { notifyAdmins, sendResetEmail } from "../services/email.service.js";
 
 // function to register new user
 export const registerUser = async (req, res, next) => {
@@ -57,6 +59,7 @@ export const registerUser = async (req, res, next) => {
       path: "businessRef",
       select: "businessName address city",
     });
+    await notifyAdmins();
     res.status(200).json(user);
   } catch (error) {
     next(error);
@@ -150,6 +153,15 @@ export const googleAuth = async (req, res, next) => {
         .status(200)
         .json(existingUser);
     }
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const resetPassword = async (req, res, next) => {
+  try {
+    const resetToken = generateResetPasswordToken(req.user.email);
+    await sendResetEmail(req.user.email, resetToken);
   } catch (error) {
     next(error);
   }
