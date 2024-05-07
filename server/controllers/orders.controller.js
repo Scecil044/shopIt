@@ -1,5 +1,6 @@
 import Order from "../models/Order.model.js";
 import Product from "../models/Product.model.js";
+import { sendEmail } from "../services/email.service.js";
 import { findOrderById } from "../services/order.service.js";
 import { errorHandler } from "../utils/error.js";
 
@@ -16,6 +17,14 @@ export const placeOrder = async (req, res, next) => {
           `Only ${isProduct.quantity} item(s) is available for purchase`
         )
       );
+
+    const email = {
+      from: process.env.SMTP_EMAIL,
+      subject: "confirmation",
+      text: "Your order has been placed",
+      html: `<p>Placement successful!</p?`,
+    };
+    await sendEmail(email);
   } catch (error) {
     next(error);
   }

@@ -10,15 +10,10 @@ const config = {
   },
 };
 const transporter = nodemailer.createTestAccount(config);
-export const sendEmail = async (email) => {
+export const sendEmail = async (mailBody) => {
   try {
-    const info = await transporter.sendMail({
-      from: process.env.SMTP_EMAIL,
-      to: email,
-      subject: "Password reset",
-      text: "",
-      html: "",
-    });
+    const info = await transporter.sendMail(mailBody);
+    console.log("email message sent");
   } catch (error) {
     next(error);
   }
