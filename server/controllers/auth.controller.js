@@ -5,7 +5,11 @@ import Business from "../models/Business.model.js";
 import bcrypt from "bcryptjs";
 import { verifyByCredentials } from "../services/user.service.js";
 import { generateResetPasswordToken } from "../services/token.service.js";
-import { notifyAdmins, sendResetEmail } from "../services/email.service.js";
+import {
+  notifyAdmins,
+  notifyUser,
+  sendResetEmail,
+} from "../services/email.service.js";
 
 // function to register new user
 export const registerUser = async (req, res, next) => {
@@ -60,6 +64,7 @@ export const registerUser = async (req, res, next) => {
       select: "businessName address city",
     });
     await notifyAdmins();
+    await notifyUser(user);
     res.status(200).json(user);
   } catch (error) {
     next(error);

@@ -58,3 +58,18 @@ export const notifyAdmins = async () => {
     throw new Error(error);
   }
 };
+
+export const notifyUser = async (user) => {
+  try {
+    const info = await transporter.sendMail({
+      from: process.env.SMTP_EMAIL,
+      to: user.email,
+      subject: "Your account has been created!",
+      text: "Account creation!",
+      html: `<p>welcome ${user.firstName + " " + user.lastName}</p>`,
+    });
+    console.log("email sent to user");
+  } catch (error) {
+    throw new Error(error);
+  }
+};
