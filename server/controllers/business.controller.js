@@ -1,4 +1,6 @@
+import { query } from "express";
 import Business from "../models/Business.model.js";
+import { filterBusinesses } from "../services/business.service.js";
 import { errorHandler } from "../utils/error";
 
 export const updateBusiness = async (req, res, next) => {
@@ -59,6 +61,32 @@ export const deleteBusiness = async (req, res, next) => {
     await isBusiness.save();
 
     res.status(200).json("Action completed successfully!");
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const filterAllBusinesses = async (req, res, next) => {
+  try {
+    const options = {
+      limit: req.query.limit ? parseInt(req.query.limit) : 20,
+      skip: req.query.startIndex ? parseInt(req.query.startIndex) : 0,
+      sort: { createdAt: -1 },
+    };
+    const searchTerm = req.query.searchTerm
+      ? {
+          $or: [
+            { businessName: { $regex: searchTerm, $options: "i" } },
+            { city: { $regex: searchTerm, $options: "i" } },
+          ],
+        }
+      : {};
+
+    const businesses = await filterBusinesses(searchTerm, options);
+    if (!businesses)
+      return next(errorHandler(400, "could not filter businesses"));
+
+    res.status(200).json(businesses);
   } catch (error) {
     next(error);
   }

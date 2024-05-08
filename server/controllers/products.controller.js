@@ -1,4 +1,5 @@
 import Product from "../models/Product.model.js";
+import { filterProducts } from "../services/products.service.js";
 import { errorHandler } from "../utils/error.js";
 
 // function to get products
@@ -23,11 +24,42 @@ export const getProducts = async (req, res, next) => {
           ],
         }
       : {};
-    const product = await Product.find(searchTerm).populate({
+    const products = await Product.find(searchTerm).populate({
       path: "userRef",
       select: "firstName lastName email",
     });
-    res.status(200).json(product);
+    res.status(200).json(products);
+  } catch (error) {
+    next(error);
+  }
+};
+// function to search products
+export const searchProducts = async (req, res, next) => {
+  try {
+    const searchTerm = req.query.searchTerm
+      ? {
+          $or: [
+            { title: { $regex: req.query.title, $options: "1" } },
+            {
+              shortDescription: {
+                $regex: req.query.shortDescription,
+                $options: "1",
+              },
+            },
+            {
+              longDescription: {
+                $regex: req.query.longDescription,
+                $options: "1",
+              },
+            },
+          ],
+        }
+      : {};
+    const filteredProducts = await filterProducts(searchTerm);
+    if (!filteredProducts)
+      return next(errorHandler(400, "could not filter products"));
+
+    res.status(200).json(filteredProducts);
   } catch (error) {
     next(error);
   }
