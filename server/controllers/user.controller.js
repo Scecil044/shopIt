@@ -98,24 +98,48 @@ export const deleteUser = async (req, res, next) => {
 };
 
 // pipelines
-const getInactiveUsers = async(req,res,next){
+export const getInactiveUsers = async (req, res, next) => {
   try {
-    const inactiveUsers = await User.aggregate([
+    const pipeline = [
       {
-        $match:{isActive: false}
+        $match: {
+          isDeleted: false,
+          isActive: true,
+        },
       },
       {
-        $group:{
-          _id: null,
-          count: {$sum: 1},
-          users: {$push: {$$ROOT}}
-        }
-      }
-    ])
-    IF(inactiveUsers.length > 0){
-      res.status(200).json(inactiveUsers[0].users)
-    }
+        $group: {
+          id: null,
+          documents: {
+            $push: "$$ROOT",
+          },
+          totalCount: {
+            $sum: 1,
+          },
+        },
+      },
+    ];
+    const data = await User.aggregate(pipeline);
+    RES.STATUS(200).json(data);
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};
+
+export const restrictUser = async (req, res, next) => {
+  try {
+    const isUser = await User.findById(req.params.id);
+    if (!isUser) return next(errorHandler(400, "User not found"));
+
+    if (req.body.status && req.body.status === "restrict") {
+      isUser.isActive = false;
+    } else if (req.body.status && req.body.status === "activate") {
+      isUser.isActive = false;
+    }
+    await isUser.save();
+
+    res.sttaus(200).json("user deactivated successfully");
+  } catch (error) {
+    next(error);
+  }
+};

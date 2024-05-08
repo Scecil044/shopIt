@@ -75,6 +75,7 @@ export const createProduct = async (req, res, next) => {
       longDescription,
       userRef: req.user.id,
       images,
+      createdBy: req.user.id,
     });
 
     res.status(201).json(newProduct);
@@ -86,6 +87,16 @@ export const createProduct = async (req, res, next) => {
 // function to update product
 export const updateProduct = async (req, res, next) => {
   try {
+    const isProduct = await Product.find(req.params.id);
+    if (!isProduct) return next(errorHandler(404, "product not found"));
+    const updates = Object.keys(req.body);
+
+    updates.forEach((update) => {
+      isProduct[update] = req.body[update];
+    });
+    isProduct.updatedBy = req.user.id;
+    const updatedProduct = await isProduct.save();
+    res.status(200).json(updatedProductßß);
   } catch (error) {
     next(error);
   }
@@ -97,4 +108,36 @@ export const deleteProduct = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+};
+
+// ======================================================== Aggregations ==============================================
+export const getAvailableProducts = async (req, res, next) => {
+  let pipeline = [
+    {
+      $match: {
+        isDeleted: false,
+        status: "available",
+      },
+    },
+    {
+      $group: {
+        id: null,
+        availableProducts: {
+          $sum: 1,
+        },
+        totalSales: {
+          $sum: "$quantity",
+        },
+      },
+    },
+  ];
+
+  const availableProducts = await Product.aggregate(pipeline);
+  res.status(200).json({
+    availableProducts,
+    totalSales,
+  });
+
+  try {
+  } catch (error) {}
 };
