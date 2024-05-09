@@ -1,5 +1,8 @@
 import Product from "../models/Product.model.js";
-import { filterProducts } from "../services/products.service.js";
+import {
+  filterProducts,
+  genericProductsSearch,
+} from "../services/products.service.js";
 import { errorHandler } from "../utils/error.js";
 
 // function to get products
@@ -172,4 +175,17 @@ export const getAvailableProducts = async (req, res, next) => {
 
   try {
   } catch (error) {}
+};
+
+// use this function to search for products across the entire database
+export const genericFilter = async (req, res, next) => {
+  try {
+    const filteredProducts = await genericProductsSearch(req.query);
+    if (!filteredProducts)
+      return next(errorHandler(400, "generic products search failed!"));
+
+    res.status(200).json(filteredProducts);
+  } catch (error) {
+    next(error);
+  }
 };
