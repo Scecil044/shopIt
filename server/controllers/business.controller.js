@@ -1,7 +1,7 @@
 import { query } from "express";
 import Business from "../models/Business.model.js";
 import { filterBusinesses } from "../services/business.service.js";
-import { errorHandler } from "../utils/error";
+import { errorHandler } from "../utils/error.js";
 
 export const updateBusiness = async (req, res, next) => {
   try {

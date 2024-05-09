@@ -7,8 +7,7 @@ import { connectDb } from "./config/dB.js";
 import routes from "./routes/index.js";
 import cors from "cors";
 import path from "path";
-import nodemailer from "nodemailer";
-import socketIo from "socket.io";
+
 
 dotenv.config();
 const app = express();
@@ -44,11 +43,8 @@ app.use((err, req, res, next) => {
   });
 });
 
-const server = app.listen(port, () => {
+app.listen(port, () => {
   console.log(`Application running on http://localhost:${port}`.cyan.underline);
 });
-const io = socketIo(server);
 
-io.on("connection", (socket) => {
-  console.log(`A new connection has been established!`);
-});
+

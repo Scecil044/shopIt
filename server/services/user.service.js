@@ -1,4 +1,4 @@
-import { errorMonitor } from "nodemailer/lib/xoauth2/index.js";
+import { errorHandler } from "../utils/error.js";
 import User from "../models/User.model.js";
 import bcrypt from "bcryptjs";
 
@@ -16,7 +16,30 @@ export const verifyByCredentials = async (email, password) => {
     next(error);
   }
 };
+// find user by email
+export const findUserByEmail = async (filter) => {
+  try {
+    return await User.findOne(filter).select("firstName lastName email");
+  } catch (error) {
+    throw new Error(error);
+  }
+};
 
+// function to activate user
+export const activateUserAccount = async (email) => {
+  try {
+    const user = await User.findOne({ email });
+    return await User.findByIdAndUpdate(user._id, {
+      $set: {
+        isActive: true,
+      },
+    });
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+// =========================   Aggregation pipelines ==================
 export const genericUserFilter = async (reqBody, reqQuery) => {
   try {
     // lookup user from users and business tables
@@ -67,6 +90,37 @@ export const genericUserFilter = async (reqBody, reqQuery) => {
         errorMonitor(404, "could not find user with matching details")
       );
     return users;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+export const getLatestRegistrations = async () => {
+  try {
+    const latestUsers = User.aggregate([
+      {
+        $match: {
+          isDeleted: false,
+        },
+      },
+      {
+        $project: {
+          firstName: 1,
+          lastName: 1,
+          email: 1,
+        },
+      },
+      {
+        $sort: {
+          createdAt: -1,
+        },
+      },
+      {
+        $limit: 5,
+      },
+    ]);
+
+    return latestUsers[0];
   } catch (error) {
     throw new Error(error);
   }

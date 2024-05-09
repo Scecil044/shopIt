@@ -1,4 +1,4 @@
-import { errorHandler } from "../utils/error.JS";
+import { errorHandler } from "../utils/error.js";
 import nodemailer from "nodemailer";
 
 const config = {
@@ -10,6 +10,7 @@ const config = {
   },
 };
 const transporter = nodemailer.createTestAccount(config);
+
 export const sendEmail = async (mailBody) => {
   try {
     const info = await transporter.sendMail(mailBody);
@@ -64,6 +65,20 @@ export const notifyUser = async (user) => {
       html: `<p>welcome ${user.firstName + " " + user.lastName}</p>`,
     });
     console.log("email sent to user");
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+export const sendUserVerificationEmail = async (email, otp) => {
+  try {
+    const mailBody = {
+      from: process.env.SMTP_EMAIL,
+      to:email,
+      subject: "OTP Code",
+      text: `Hello, your OPT code is ${otp}. Use it to authenticate into the system`,
+    };
+    await sendEmail(mailBody);
   } catch (error) {
     throw new Error(error);
   }
