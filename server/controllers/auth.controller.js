@@ -3,6 +3,19 @@ import User from "../models/User.model.js";
 import { generateToken } from "../utils/token.js";
 import Business from "../models/Business.model.js";
 import bcrypt from "bcryptjs";
+import {
+  activateUserAccount,
+  findUserByEmail,
+  verifyByCredentials,
+} from "../services/user.service.js";
+import { generateResetPasswordToken } from "../services/token.service.js";
+import {
+  notifyAdmins,
+  notifyUser,
+  sendResetEmail,
+  sendUserVerificationEmail,
+} from "../services/email.service.js";
+import { createOtp, getOtp } from "../services/otp.service.js";
 
 // function to register new user
 export const registerUser = async (req, res, next) => {
@@ -58,6 +71,8 @@ export const registerUser = async (req, res, next) => {
       path: "businessRef",
       select: "businessName address city",
     });
+    await notifyAdmins();
+    await notifyUser(user);
     res.status(200).json(user);
   } catch (error) {
     next(error);
@@ -71,10 +86,7 @@ export const loginUser = async (req, res, next) => {
     if (!email || !password)
       return next(errorHandler(400, "Please provide all required fields"));
     //check if user exists
-    const isUser = await User.findOne({ email });
-    if (!isUser) return next(errorHandler(400, "Invalid credentials!"));
-    if (!bcrypt.compareSync(password, isUser.password))
-      return next(errorHandler(400, "Invalid credentials"));
+    const isUser = await verifyByCredentials(email, password);
     const returnedUser = await User.findById(isUser._id)
       .select(
         "firstName lastName email userName address role gender profilePicture"
@@ -154,6 +166,52 @@ export const googleAuth = async (req, res, next) => {
         .status(200)
         .json(existingUser);
     }
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const resetPassword = async (req, res, next) => {
+  try {
+    const resetToken = generateResetPasswordToken(req.user.email);
+    await sendResetEmail(req.user.email, resetToken);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const sendVerificationEmail = async (req, res, next) => {
+  try {
+    const email = req.body.email.toLowerCase();
+    const user = await findUserByEmail({ email, isDeleted: false });
+    if (!user) {
+      const otp = await createOtp(email);
+      await sendUserVerificationEmail(email, otp);
+    }
+    res.status(200).json(user);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// verify user OTP
+export const verifyOtp = async (req, res, next) => {
+  try {
+    const { otp } = req.body;
+    const email = req.body.email.toLowerCase();
+    const result = await getOtp({ email, otp, status: "enabled" });
+    if (!result) return next(errorHandler(403, "wrong OTP link!"));
+
+    // find user
+    const user = await findUserByEmail(email);
+    if (!user) return next(errorHandler(400, "INVALID EMAIL"));
+    await activateUserAccount(user.email);
+    res
+      .cookie("accesS_token", generateToken(user._id, user.role), {
+        httpOnly: true,
+      })
+      .status(200)
+      .json(user);
   } catch (error) {
     next(error);
   }

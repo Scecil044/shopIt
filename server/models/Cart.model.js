@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
 
-const productSchema = new mongoose.Schema(
+const CartSchema = new mongoose.Schema(
   {
     userRef: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    productRef: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
     title: { type: String, required: true },
     price: { type: Number, required: true },
     shortDescription: { type: String, required: true },
@@ -11,13 +12,9 @@ const productSchema = new mongoose.Schema(
     slug: { type: String, required: true },
     images: [{ type: String, required: true }],
     isFlashSale: { type: Boolean, default: false },
-    quantity: { type: Number, required: true, default: 1 },
-    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-    updatedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-    deletedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   },
   { timestamps: true }
 );
 
-const Product = mongoose.model("Product", productSchema);
-export default Product;
+const Cart = mongoose.model("Cart", CartSchema);
+export default Cart;

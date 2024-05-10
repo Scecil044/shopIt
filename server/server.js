@@ -7,7 +7,7 @@ import { connectDb } from "./config/dB.js";
 import routes from "./routes/index.js";
 import cors from "cors";
 import path from "path";
-import nodemailer from "nodemailer";
+
 
 dotenv.config();
 const app = express();
@@ -46,3 +46,5 @@ app.use((err, req, res, next) => {
 app.listen(port, () => {
   console.log(`Application running on http://localhost:${port}`.cyan.underline);
 });
+
+
