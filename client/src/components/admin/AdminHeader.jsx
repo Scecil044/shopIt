@@ -33,7 +33,7 @@ export default function AdminHeader() {
   };
   return (
     <>
-      <header className="flex items-center justify-between bg-appRed text-white w-full p-3 min-h-12 relative">
+      <header className="flex items-center justify-between bg-appRed text-white w-full px-2 min-h-12 relative">
         <Link
           to="/admin/dashboard"
           className="text-lg md:text-2xl font-semibold tracking-wide shadow-gray-100"
@@ -67,7 +67,10 @@ export default function AdminHeader() {
             <nav className="text-black">
               <ul className="flex flex-col">
                 <li className="p-2 hover:bg-appRed hover:text-white transition-all duration-500 cursor-pointer">
-                  <Link className="flex items-center gap-2">
+                  <Link
+                    to={`/admin/profile/${user?._id}`}
+                    className="flex items-center gap-2"
+                  >
                     <IoSettings className="h-5 w-5" />
                     Profile
                   </Link>
@@ -90,7 +93,10 @@ export default function AdminHeader() {
           <div className="flex flex-col md:hidden bg-appRed absolute top-16 w-full left-0 border-t-2">
             <ul>
               <li className="p-2 w-full hover:bg-black/50 transition-all duration-300">
-                <Link className="flex items-center gap-2">
+                <Link
+                  to={`/admin/profile/${user?._id}`}
+                  className="flex items-center gap-2"
+                >
                   <IoSettings className="h-5 w-5" />
                   Profile
                 </Link>

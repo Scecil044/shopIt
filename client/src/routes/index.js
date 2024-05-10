@@ -19,6 +19,7 @@ import SystemOrders from "../pages/admin/SystemOrders";
 import SystemReports from "../pages/admin/SystemReports";
 import SystemSupport from "../pages/admin/SystemSupport";
 import AdminProfile from "../pages/admin/AdminProfile";
+import ForumHome from "../pages/forum/ForumHome";
 
 const guestRoutes = [
   {
@@ -29,6 +30,11 @@ const guestRoutes = [
   {
     path: "/login",
     element: Register,
+    exact: true,
+  },
+  {
+    path: "*",
+    element: NotFound,
     exact: true,
   },
 ];
@@ -72,6 +78,11 @@ const adminRoutes = [
   {
     path: "/chats",
     element: Chats,
+    exact: true,
+  },
+  {
+    path: "*",
+    element: NotFound,
     exact: true,
   },
 ];
@@ -123,6 +134,11 @@ const mainRoutes = [
     exact: true,
   },
   {
+    path: "/forum",
+    element: ForumHome,
+    exact: true,
+  },
+  {
     path: "*",
     element: NotFound,
     exact: true,
@@ -133,6 +149,11 @@ const productRoutes = [
   {
     path: "/list",
     element: ProductListing,
+    exact: true,
+  },
+  {
+    path: "*",
+    element: NotFound,
     exact: true,
   },
 ];

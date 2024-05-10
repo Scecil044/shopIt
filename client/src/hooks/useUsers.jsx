@@ -59,7 +59,7 @@ const useUsers = () => {
 
   const updateUser = async (userId, data) => {
     try {
-      const res = await fetch(`/api/users/${userId}`, {
+      const res = await fetch(`/api/users/${userId}`, data, {
         method: "PUT",
         headers: {
           "content-type": "application/json",
@@ -70,14 +70,37 @@ const useUsers = () => {
       if (response.success === false) {
         setIsError(response.message);
         setIsLoading(false);
+        toast({
+          title: "Oops, something went wrong.",
+          description: data?.message,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+          position: "top-right",
+        });
         return;
       }
-      setUsers(response);
+      setUser(response);
       setIsLoading(false);
       setIsError(false);
+      toast({
+        title: "Details updated.",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: "top-right",
+      });
     } catch (error) {
       setIsLoading(false);
       setIsError(error.message);
+      toast({
+        title: "Registration successful.",
+        description: error?.message,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "top-right",
+      });
       console.log(error.message);
     }
   };

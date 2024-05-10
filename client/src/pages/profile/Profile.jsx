@@ -2,20 +2,31 @@ import { LuAsterisk } from "react-icons/lu";
 import { Link, Navigate } from "react-router-dom";
 import ComponentLoader from "../../components/admin/ComponentLoader";
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   loginFulfilledState,
   loginPendingState,
   loginRejectedState,
 } from "../../redux/userSlice";
 import { useToast } from "@chakra-ui/react";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
+import { app } from "../../firebase";
 
 export default function Profile() {
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
+  const [uploadError, setUploadError] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(null);
   const [formData, setFormData] = useState({});
   const toast = useToast();
+  const fileRef = useRef(null);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   const updateUser = async (e) => {
     e.preventDefault();
@@ -52,8 +63,40 @@ export default function Profile() {
       console.log(error);
     }
   };
-  console.log(formData);
 
+  useEffect(() => {
+    if (selectedImage) {
+      const uploadImage = async () => {
+        const fileName = new Date().getTime() + selectedImage.name;
+        const storage = getStorage(app);
+        const storageRef = ref(storage, fileName);
+        const uploadTask = uploadBytesResumable(storageRef, selectedImage);
+
+        uploadTask.on(
+          "status_changes",
+          (snapshot) => {
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            setUploadProgress(progress.toFixed(0));
+          },
+          (error) => {
+            console.log(error);
+            setIsLoading(false);
+            setUploadError(error);
+          },
+          () =>
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+              setFormData({ ...formData, profilePicture: downloadURL });
+              setIsLoading(false);
+              setUploadError(false);
+            })
+        );
+      };
+
+      uploadImage();
+    }
+  }, [selectedImage]);
+  console.log(formData)
   return user ? (
     <>
       <div className="min-h-screen">
@@ -68,28 +111,28 @@ export default function Profile() {
         </div>
         <nav className="flex items-center shadow-md">
           <ul className="flex items-center">
-            <li className="py-2 px-6 hover:bg-appRed hover:text-white transition-all duration-500">
+            <li className="py-2 px-2 md:px-6 hover:bg-appRed hover:text-white transition-all duration-500">
               <Link>Account</Link>
             </li>
-            <li className="py-2 px-6 hover:bg-appRed hover:text-white transition-all duration-500">
+            <li className="py-2 px-2 md:px-6 hover:bg-appRed hover:text-white transition-all duration-500">
               <Link>Orders</Link>
             </li>
-            <li className="py-2 px-6 hover:bg-appRed hover:text-white transition-all duration-500">
+            <li className="py-2 px-2 md:px-6 hover:bg-appRed hover:text-white transition-all duration-500">
               <Link>Vouchers</Link>
             </li>
-            <li className="py-2 px-6 hover:bg-appRed hover:text-white transition-all duration-500">
+            <li className="py-2 px-2 md:px-6 hover:bg-appRed hover:text-white transition-all duration-500">
               <Link>History</Link>
             </li>
-            <li className="py-2 px-6 hover:bg-appRed hover:text-white transition-all duration-500">
+            <li className="py-2 px-2 md:px-6 hover:bg-appRed hover:text-white transition-all duration-500">
               <Link>Saved</Link>
             </li>
-            <li className="py-2 px-6 hover:bg-appRed hover:text-white transition-all duration-500">
+            <li className="py-2 px-2 md:px-6 hover:bg-appRed hover:text-white transition-all duration-500">
               <Link>Recalls</Link>
             </li>
-            <li className="py-2 px-6 hover:bg-appRed hover:text-white transition-all duration-500">
+            <li className="py-2 px-2 md:px-6 hover:bg-appRed hover:text-white transition-all duration-500">
               <Link>Reviews</Link>
             </li>
-            <li className="py-2 px-6 hover:bg-appRed hover:text-white transition-all duration-500">
+            <li className="py-2 px-2 md:px-6 hover:bg-appRed hover:text-white transition-all duration-500">
               <Link>Inbox</Link>
             </li>
           </ul>
@@ -302,6 +345,15 @@ export default function Profile() {
                   }
                   alt="business logo"
                   className="rounded-full h-40 w-40 "
+                  onClick={() => fileRef.current.click()}
+                />
+                <input
+                  type="file"
+                  className="hidden"
+                  id="pic"
+                  accept="image/*"
+                  ref={fileRef}
+                  onChange={(e) => setSelectedImage(e.target.files[0])}
                 />
               </div>
             </div>

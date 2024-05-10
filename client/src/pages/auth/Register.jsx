@@ -5,9 +5,9 @@ import { IoIosClose } from "react-icons/io";
 import ComponentLoader from "../../components/admin/ComponentLoader";
 import { useToast } from "@chakra-ui/react";
 
-export default function Register({ setOpenRegister }) {
+export default function Register({ setOpenRegister, role }) {
   const [formData, setFormData] = useState({});
-  const [selectedRole, setSelectedRole] = useState(1);
+  const [selectedRole, setSelectedRole] = useState(role || 1);
   const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
 

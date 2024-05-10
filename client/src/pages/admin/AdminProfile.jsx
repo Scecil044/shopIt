@@ -3,13 +3,66 @@ import useUsers from "../../hooks/useUsers";
 import ComponentLoader from "../../components/admin/ComponentLoader";
 import { useEffect, useState } from "react";
 import { LuAsterisk } from "react-icons/lu";
+import { useToast } from "@chakra-ui/react";
 
 export default function AdminProfile() {
-  const { user, isLoading, getUser } = useUsers();
+  const toast = useToast();
+  const { user, isLoading, getUser, setUser, setIsLoading, setIsError } =
+    useUsers();
   const params = useParams();
   const [formData, setFormData] = useState({});
 
-  const updateUser = () => {};
+  const updateUserDetails = async () => {
+    try {
+      const res = await fetch(`/api/users/${params.id}`, {
+        method: "PUT",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        setIsError(data.message);
+        setIsLoading(false);
+        toast({
+          title: "Oops, something went wrong.",
+          description: data?.message,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+          position: "top-right",
+        });
+        return;
+      }
+      if (data.success !== false) {
+        setUser(data);
+        setIsLoading(false);
+        setIsError(false);
+        toast({
+          title: "Details Updated.",
+          description: "Your details have been captured.",
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+          position: "top-right",
+        });
+        getUser(params.id);
+      }
+    } catch (error) {
+      setIsLoading(false);
+      setIsError(error.message);
+      toast({
+        title: "Registration successful.",
+        description: error?.message,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "top-right",
+      });
+    }
+  };
+
   useEffect(() => {
     getUser(params.id);
   }, [params.id]);
@@ -27,7 +80,7 @@ export default function AdminProfile() {
       </div>
       <div className="bg-white p-5 my-2">
         <form
-          onSubmit={updateUser}
+          onSubmit={updateUserDetails}
           className="flex flex-col-reverse md:flex-row gap-3 max-w-7xl mx-auto mt-2"
         >
           <section className=" flex flex-1 flex-col gap-3 p-3">
@@ -230,7 +283,7 @@ export default function AdminProfile() {
                   src={
                     user?.role === "trader"
                       ? user?.businessRef?.logo
-                      : user?.role === "customer"
+                      : user?.role === "customer" || user?.role === "admin"
                       ? user?.profilePicture
                       : ""
                   }

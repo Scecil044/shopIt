@@ -19,6 +19,8 @@ export const registerUser = async (req, res, next) => {
       city,
       landMark,
     } = req.body;
+    if (!email || !password || !lastName || !phone || !address)
+      return next(errorHandler(400, "Please provide all the required fields!"));
 
     // check if user exists
     const isUser = await User.findOne({ email });

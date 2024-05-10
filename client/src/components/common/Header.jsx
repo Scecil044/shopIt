@@ -15,6 +15,7 @@ import { AiOutlineHeart } from "react-icons/ai";
 import { FaHome } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
 import { PiStackLight } from "react-icons/pi";
+import { MdForum } from "react-icons/md";
 
 export default function Header() {
   const { user } = useSelector((state) => state.user);
@@ -123,7 +124,10 @@ export default function Header() {
             className="rounded-full cursor-pointer h-12 w-12"
           >
             <img
-              src="https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o="
+              src={
+                user?.profilePicture ||
+                "https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o="
+              }
               alt="..."
               className="rounded-full object-cover h-9 w-9"
             />
@@ -212,6 +216,20 @@ export default function Header() {
                 <button
                   onClick={() => {
                     setToggleMobile(false);
+                    navigate("/forum");
+                  }}
+                  className="flex items-center gap-1"
+                >
+                  <MdForum className="h-6 w-6" />
+                  Forum
+                </button>
+              </li>
+            )}
+            {user && (
+              <li className="py-2 px-2 w-full hover:bg-appBlack hover:text-white transition-all duration-500 cursor-pointer">
+                <button
+                  onClick={() => {
+                    setToggleMobile(false);
                     navigate("/profile");
                   }}
                   className="flex items-center gap-1"
@@ -253,6 +271,18 @@ export default function Header() {
               >
                 <FaUserCircle className="h-6 w-6" />
                 Profile
+              </button>
+            </li>
+            <li className="py-2 px-2 w-full hover:bg-appBlack hover:text-white transition-all duration-500 cursor-pointer">
+              <button
+                onClick={() => {
+                  setOpenDropDown(false);
+                  navigate("/forum");
+                }}
+                className="flex items-center gap-1"
+              >
+                <MdForum className="h-6 w-6" />
+                Forum
               </button>
             </li>
             <li className="py-2 px-2 w-full hover:bg-appBlack hover:text-white transition-all duration-500 cursor-pointer">

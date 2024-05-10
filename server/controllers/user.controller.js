@@ -1,3 +1,4 @@
+import Business from "../models/Business.model.js";
 import User from "../models/User.model.js";
 import { errorHandler } from "../utils/error.js";
 
@@ -25,6 +26,7 @@ export const getUsers = async (req, res, next) => {
       .select(
         "firstName lastName email role phone profilePicture gender address createdAt"
       )
+      .populate("businessRef")
       .skip(startIndex)
       .limit(limit)
       .sort({ createdAt: sortDirection });
@@ -55,7 +57,7 @@ export const updateUser = async (req, res, next) => {
       );
     const user = await User.findById(req.params.id);
     if (!user)
-      next(
+      return next(
         errorHandler(
           400,
           `No user with matching id :${req.params.id} was found`
@@ -78,6 +80,19 @@ export const updateUser = async (req, res, next) => {
       },
       { new: true }
     ).select("-password");
+    if (user.role === "trader" && user.businessRef) {
+      await Business.findByIdAndUpdate(
+        updatedUser.businessRef._id,
+        {
+          $set: {
+            logo: req.body.logo,
+            businessName: req.body.businessName,
+          },
+        },
+        { new: true }
+      );
+    }
+
     res.status(200).json(updatedUser);
   } catch (error) {
     next(error);
@@ -88,6 +103,10 @@ export const deleteUser = async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id);
     if (!user) return next(errorHandler(404, "User not found"));
+
+    if (user && user.businessRef) {
+      await Business.findByIdAndDelete(user.businessRef);
+    }
 
     await User.findByIdAndDelete(req.params.id);
 

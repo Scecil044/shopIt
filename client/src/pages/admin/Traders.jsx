@@ -189,6 +189,12 @@ export default function Traders() {
                 <th className="text-nowrap text-left border-t-2 p-1">Name</th>
                 <th className="text-nowrap text-left border-t-2 p-1">Email</th>
                 <th className="text-nowrap text-left border-t-2 p-1">Phone</th>
+                <th className="text-nowrap text-left border-t-2 p-1">
+                  Business
+                </th>
+                <th className="text-nowrap text-left border-t-2 p-1">
+                  Location
+                </th>
                 <th className="text-nowrap text-left border-t-2 p-1">Role</th>
                 <th className="text-nowrap text-left border-t-2 p-1">Joined</th>
                 <th className="text-nowrap text-left border-t-2 p-1">
@@ -219,7 +225,7 @@ export default function Traders() {
                       <img
                         src={user?.profilePicture}
                         alt="avatar"
-                        className="h-10 w-10"
+                        className="h-8 w-8 rounded-full object-cover"
                       />
                     </td>
                     <td className="px-2 py-1">
@@ -227,6 +233,10 @@ export default function Traders() {
                     </td>
                     <td className="px-2 py-1">{user?.email}</td>
                     <td className="px-2 py-1">{user?.phone}</td>
+                    <td className="px-2 py-1 font-semibold">
+                      {user?.businessRef?.businessName}
+                    </td>
+                    <td className="px-2 py-1">{user?.businessRef?.city}</td>
                     <td className="px-2 py-1">{user?.role}</td>
                     <td className="px-2 py-1">
                       {user.createdAt

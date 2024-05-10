@@ -217,7 +217,7 @@ export default function Users() {
                       <img
                         src={user?.profilePicture}
                         alt="avatar"
-                        className="h-10 w-10"
+                        className="h-8 w-8 rounded-full object-cover"
                       />
                     </td>
                     <td className="px-2 py-1">

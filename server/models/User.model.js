@@ -63,6 +63,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, "The Password field is required"],
     },
+    metaData: [
+      {
+        lastLogin: { type: Date },
+      },
+    ],
   },
   { timestamps: true }
 );

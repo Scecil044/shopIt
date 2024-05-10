@@ -9,6 +9,7 @@ export default function Login() {
   const [passwordError, setPasswordError] = useState(false);
   const [openRegister, setOpenRegister] = useState(false);
   const { isLoading, isError, authenticateUser } = useUsers();
+  const [role, setRole] = useState(null);
 
   const [formData, setFormData] = useState({});
   // function to login user
@@ -30,6 +31,7 @@ export default function Login() {
     }
     authenticateUser(formData);
   };
+
   return (
     <div className="min-h-screen flex flex-col-reverse md:flex-row justify-center items-center bg-white text-sm">
       <div className="w-full md:w-[450px]">
@@ -76,7 +78,7 @@ export default function Login() {
           </div>
           <button
             disabled={isLoading}
-            className="text-white bg-appRed py-1 w-full shadow-md mb-1 flex items-center justify-center gap-2 disabled:cursor-not-allowed hover:opacity-90"
+            className="text-white bg-yellow-400 py-1 w-full shadow-md mb-1 flex items-center justify-center gap-2 disabled:cursor-not-allowed hover:opacity-90"
           >
             {isLoading && (
               <div className="h-5 w-5 rounded-full border-r-2 border-b-2 border-white animate-spin"></div>
@@ -92,9 +94,15 @@ export default function Login() {
 
           <span className="text-[13px]">
             Want to sell on ShopIt?{" "}
-            <Link className="text-blue-500 font-semibold hover:underline">
+            <button
+              onClick={() => {
+                setOpenRegister(true);
+                setRole(2);
+              }}
+              className="text-blue-500 font-semibold hover:underline"
+            >
               Buy for business
-            </Link>
+            </button>
           </span>
         </form>
         <div className="flex items-center justify-center mt-5 flex-col">
@@ -110,7 +118,9 @@ export default function Login() {
       </div>
       <img src="/trolley.png" alt="trolley" className="hidden md:inline" />
 
-      {openRegister && <Register setOpenRegister={setOpenRegister} />}
+      {openRegister && (
+        <Register role={role} setOpenRegister={setOpenRegister} />
+      )}
     </div>
   );
 }
