@@ -1,7 +1,7 @@
 import Product from "../models/Product.model.js";
 import {
   filterProducts,
-  genericProductsSearch,
+  genericProductsSearch
 } from "../services/products.service.js";
 import { errorHandler } from "../utils/error.js";
 
@@ -15,21 +15,21 @@ export const getProducts = async (req, res, next) => {
             {
               shortDescription: {
                 $regex: req.query.shortDescription,
-                $options: "1",
-              },
+                $options: "1"
+              }
             },
             {
               longDescription: {
                 $regex: req.query.longDescription,
-                $options: "1",
-              },
-            },
-          ],
+                $options: "1"
+              }
+            }
+          ]
         }
       : {};
-    const products = await Product.find(searchTerm).populate({
+    const products = await Product.find({ isDeleted: false }).populate({
       path: "userRef",
-      select: "firstName lastName email",
+      select: "firstName lastName email"
     });
     res.status(200).json(products);
   } catch (error) {
@@ -42,24 +42,24 @@ export const searchProducts = async (req, res, next) => {
     const searchTerm = req.query.searchTerm
       ? {
           $or: [
-            { title: { $regex: req.query.title, $options: "1" } },
+            { title: { $regex: searchTerm, $options: "1" } },
             {
               shortDescription: {
-                $regex: req.query.shortDescription,
-                $options: "1",
-              },
+                $regex: searchTerm,
+                $options: "1"
+              }
             },
             {
               longDescription: {
-                $regex: req.query.longDescription,
-                $options: "1",
-              },
-            },
-          ],
+                $regex: searchTerm,
+                $options: "1"
+              }
+            }
+          ]
         }
       : {};
     const filteredProducts = await filterProducts(searchTerm);
-    if (!filteredProducts)
+    if (!filteredProducts || filteredProducts.length < 1)
       return next(errorHandler(400, "could not filter products"));
 
     res.status(200).json(filteredProducts);
@@ -77,7 +77,7 @@ export const createProduct = async (req, res, next) => {
       quantity,
       shortDescription,
       longDescription,
-      images,
+      images
     } = req.body;
     if (
       !title ||
@@ -110,7 +110,7 @@ export const createProduct = async (req, res, next) => {
       longDescription,
       userRef: req.user.id,
       images,
-      createdBy: req.user.id,
+      createdBy: req.user.id
     });
 
     res.status(201).json(newProduct);
@@ -140,6 +140,11 @@ export const updateProduct = async (req, res, next) => {
 // function to update product
 export const deleteProduct = async (req, res, next) => {
   try {
+    const isProduct = await Product.findById(req.params.id);
+    if (!isProduct) return next(errorHandler(404, "product not found"));
+    isProduct.isDeleted = true;
+    await isProduct.save();
+    res.status(200).json(isProduct);
   } catch (error) {
     next(error);
   }
@@ -151,26 +156,26 @@ export const getAvailableProducts = async (req, res, next) => {
     {
       $match: {
         isDeleted: false,
-        status: "available",
-      },
+        status: "available"
+      }
     },
     {
       $group: {
         id: null,
         availableProducts: {
-          $sum: 1,
+          $sum: 1
         },
         totalSales: {
-          $sum: "$quantity",
-        },
-      },
-    },
+          $sum: "$quantity"
+        }
+      }
+    }
   ];
 
   const availableProducts = await Product.aggregate(pipeline);
   res.status(200).json({
     availableProducts,
-    totalSales,
+    totalSales
   });
 
   try {

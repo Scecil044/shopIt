@@ -6,14 +6,14 @@ import bcrypt from "bcryptjs";
 import {
   activateUserAccount,
   findUserByEmail,
-  verifyByCredentials,
+  verifyByCredentials
 } from "../services/user.service.js";
 import { generateResetPasswordToken } from "../services/token.service.js";
 import {
   notifyAdmins,
   notifyUser,
   sendResetEmail,
-  sendUserVerificationEmail,
+  sendUserVerificationEmail
 } from "../services/email.service.js";
 import { createOtp, getOtp } from "../services/otp.service.js";
 
@@ -30,7 +30,7 @@ export const registerUser = async (req, res, next) => {
       gender,
       role,
       city,
-      landMark,
+      landMark
     } = req.body;
     if (!email || !password || !lastName || !phone || !address)
       return next(errorHandler(400, "Please provide all the required fields!"));
@@ -51,7 +51,7 @@ export const registerUser = async (req, res, next) => {
       gender,
       role,
       city,
-      landMark,
+      landMark
     });
 
     // Create business
@@ -61,7 +61,7 @@ export const registerUser = async (req, res, next) => {
         businessName: req.body.businessName,
         address: req.body.address,
         city: req.body.city,
-        logo: req.body.companyLogo,
+        logo: req.body.companyLogo
       });
       newUser.businessRef = business._id;
       await newUser.save();
@@ -69,7 +69,7 @@ export const registerUser = async (req, res, next) => {
 
     const user = await User.findById(newUser._id).select("-password").populate({
       path: "businessRef",
-      select: "businessName address city",
+      select: "businessName address city"
     });
     await notifyAdmins();
     await notifyUser(user);
@@ -94,7 +94,7 @@ export const loginUser = async (req, res, next) => {
       .populate("businessRef");
     res
       .cookie("access_token", generateToken(isUser._id, isUser.role), {
-        httpOnly: true,
+        httpOnly: true
       })
       .status(200)
       .json(returnedUser);
@@ -136,13 +136,13 @@ export const googleAuth = async (req, res, next) => {
         profilePicture,
         password: randomPassword,
         phone: randomPhone,
-        gender: "undefined",
+        gender: "undefined"
       });
       const newUser = await User.findById(user._id)
         .select("-password")
         .populate({
           path: "businessRef",
-          select: "businessName address city",
+          select: "businessName address city"
         });
       res
         .cookie(
@@ -156,7 +156,7 @@ export const googleAuth = async (req, res, next) => {
         .select("-password")
         .populate({
           path: "businessRef",
-          select: "businessName address city",
+          select: "businessName address city"
         });
       res
         .cookie(
@@ -174,7 +174,7 @@ export const googleAuth = async (req, res, next) => {
 export const resetPassword = async (req, res, next) => {
   try {
     const resetToken = generateResetPasswordToken(req.user.email);
-    await sendResetEmail(req.user.email, resetToken);
+    // await sendResetEmail(req.user.email, resetToken);
   } catch (error) {
     next(error);
   }
@@ -186,7 +186,7 @@ export const sendVerificationEmail = async (req, res, next) => {
     const user = await findUserByEmail({ email, isDeleted: false });
     if (!user) {
       const otp = await createOtp(email);
-      await sendUserVerificationEmail(email, otp);
+      // await sendUserVerificationEmail(email, otp);
     }
     res.status(200).json(user);
   } catch (error) {
@@ -208,7 +208,7 @@ export const verifyOtp = async (req, res, next) => {
     await activateUserAccount(user.email);
     res
       .cookie("accesS_token", generateToken(user._id, user.role), {
-        httpOnly: true,
+        httpOnly: true
       })
       .status(200)
       .json(user);

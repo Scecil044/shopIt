@@ -3,7 +3,8 @@ import {
   createProduct,
   deleteProduct,
   getProducts,
-  updateProduct,
+  searchProducts,
+  updateProduct
 } from "../controllers/products.controller.js";
 import { auth } from "../utils/auth.js";
 
@@ -13,5 +14,6 @@ router.get("/", getProducts);
 router.post("/", auth, createProduct);
 router.put("/:id", auth, updateProduct);
 router.delete("/:id", auth, deleteProduct);
+router.get("/search", searchProducts);
 
 export default router;

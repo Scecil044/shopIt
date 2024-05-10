@@ -7,12 +7,15 @@ import { connectDb } from "./config/dB.js";
 import routes from "./routes/index.js";
 import cors from "cors";
 import path from "path";
-
+import http from "http";
+import { Server } from "socket.io";
 
 dotenv.config();
 const app = express();
 const port = process.env.PORT || 5500;
 const __dirname = path.resolve();
+const server = http.createServer(app);
+const io = new Server(server);
 
 // database connection
 connectDb();
@@ -39,7 +42,7 @@ app.use((err, req, res, next) => {
   res.status(statusCode).json({
     success: false,
     statusCode,
-    message,
+    message
   });
 });
 
@@ -47,4 +50,13 @@ app.listen(port, () => {
   console.log(`Application running on http://localhost:${port}`.cyan.underline);
 });
 
+// io.on("connection", (socket) => {
+//   console.log("a user connected");
+//   socket.on("disconnect", () => {
+//     console.log("user disconnected");
+//   });
+// });
 
+// server.listen(3000, () => {
+//   console.log(`Application running on http://localhost:${port}`.cyan.underline);
+// });

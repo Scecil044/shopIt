@@ -5,26 +5,9 @@ export const filterProducts = async (searchTerm) => {
   try {
     const pipeline = [
       {
-        $match: searchTerm,
-      },
-      {
-        $lookup: {
-          from: "users",
-          localField: "userRef",
-          foreignField: "_id",
-          as: "userDetails",
-        },
-      },
-      {
-        $lookup: {
-          from: "businesses",
-          localField: "businessRef",
-          foreignField: "_id",
-          as: "businessDetails",
-        },
-      },
-      {
-        $unwind: "$userDetails",
+        $match: {
+          isDeleted: false
+        }
       },
       {
         $project: {
@@ -32,10 +15,13 @@ export const filterProducts = async (searchTerm) => {
           shortDescription: 1,
           longDescription: 1,
           quantity: 1,
-          businessName: "$businessDetails.businessName",
-          businessEmail: "$userDetails.email",
-        },
-      },
+          slug: 1,
+          images: 1,
+          price: 1
+          // businessName: "$businessDetails.businessName",
+          // businessEmail: "$userDetails.email"
+        }
+      }
     ];
     const products = await Product.aggregate(pipeline);
     return products;
@@ -48,12 +34,12 @@ export const filterProducts = async (searchTerm) => {
 export const genericProductsSearch = async (query) => {
   try {
     const filter = {
-      isDeleted: false,
+      isDeleted: false
     };
     const options = {
       limit: query.limit,
       sort: { createdAt: query.sortOrder ? parseInt(query.sortOrder) : -1 },
-      page: query.startIndex ? parseInt(query.startIndex) : 0,
+      page: query.startIndex ? parseInt(query.startIndex) : 0
     };
 
     const pipeline = [
@@ -62,22 +48,22 @@ export const genericProductsSearch = async (query) => {
           from: "businesses",
           localField: "businessRef",
           foreignField: "_id",
-          as: "businessDetails",
-        },
+          as: "businessDetails"
+        }
       },
       {
         $lookup: {
           from: "users",
           localField: "userRef",
           foreignField: "_id",
-          as: "userDetails",
-        },
+          as: "userDetails"
+        }
       },
       {
-        $unwind: "$businessDetails",
+        $unwind: "$businessDetails"
       },
       {
-        $unwind: "$userDetails",
+        $unwind: "$userDetails"
       },
       {
         $project: {
@@ -91,9 +77,9 @@ export const genericProductsSearch = async (query) => {
           slud: 1,
           city: 1,
           businessName: "$businessDetails.businessName",
-          email: "$userDetails.email",
-        },
-      },
+          email: "$userDetails.email"
+        }
+      }
     ];
     const result = await Product.paginateLookup(filter, options, pipeline);
     return result;

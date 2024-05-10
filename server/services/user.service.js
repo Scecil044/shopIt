@@ -5,15 +5,14 @@ import bcrypt from "bcryptjs";
 // function to verify user by credentials
 export const verifyByCredentials = async (email, password) => {
   try {
-    const isUser = await User.findOne({ email }, { password: 0 });
-    if (!isUser)
-      return next(errorHandler(404, "User not found or invalid credentials!"));
+    const isUser = await User.findOne({ email });
+    if (!isUser) throw new Error("User not found or invalid credentials!");
 
     const isMatch = await bcrypt.compare(password, isUser.password);
-    if (!isMatch) return next(errorHandler(404, "Invalid Credentials!"));
+    if (!isMatch) throw new Error("invalid credentials!!!");
     return isUser;
   } catch (error) {
-    next(error);
+    throw new Error("could not verify credentials");
   }
 };
 // find user by email
@@ -31,8 +30,8 @@ export const activateUserAccount = async (email) => {
     const user = await User.findOne({ email });
     return await User.findByIdAndUpdate(user._id, {
       $set: {
-        isActive: true,
-      },
+        isActive: true
+      }
     });
   } catch (error) {
     throw new Error(error);
@@ -46,19 +45,19 @@ export const genericUserFilter = async (reqBody, reqQuery) => {
     const pipeline = [
       {
         $match: {
-          isDeleted: false,
-        },
+          isDeleted: false
+        }
       },
       {
         $lookup: {
           from: "business",
           localField: "businessRef",
           foreignField: "_id",
-          as: "businessDetails",
-        },
+          as: "businessDetails"
+        }
       },
       {
-        $unwind: "$businessDetails",
+        $unwind: "$businessDetails"
       },
       {
         $project: {
@@ -67,9 +66,9 @@ export const genericUserFilter = async (reqBody, reqQuery) => {
           lastName: 1,
           email: 1,
           phone: 1,
-          businessName: "$businessDetails.businessName",
-        },
-      },
+          businessName: "$businessDetails.businessName"
+        }
+      }
     ];
 
     if (reqQuery.search) {
@@ -79,16 +78,13 @@ export const genericUserFilter = async (reqBody, reqQuery) => {
           $or: [
             { firstName: searchRegex },
             { lastName: searchRegex },
-            { email: searchRegex },
-          ],
-        },
+            { email: searchRegex }
+          ]
+        }
       });
     }
     const users = await User.aggregate(pipeline);
-    if (!users)
-      return next(
-        errorMonitor(404, "could not find user with matching details")
-      );
+    if (!users) throw new Error("could not find user with matching details");
     return users;
   } catch (error) {
     throw new Error(error);
@@ -100,24 +96,24 @@ export const getLatestRegistrations = async () => {
     const latestUsers = User.aggregate([
       {
         $match: {
-          isDeleted: false,
-        },
+          isDeleted: false
+        }
       },
       {
         $project: {
           firstName: 1,
           lastName: 1,
-          email: 1,
-        },
+          email: 1
+        }
       },
       {
         $sort: {
-          createdAt: -1,
-        },
+          createdAt: -1
+        }
       },
       {
-        $limit: 5,
-      },
+        $limit: 5
+      }
     ]);
 
     return latestUsers[0];

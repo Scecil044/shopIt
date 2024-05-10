@@ -12,9 +12,10 @@ const productSchema = new mongoose.Schema(
     images: [{ type: String, required: true }],
     isFlashSale: { type: Boolean, default: false },
     quantity: { type: Number, required: true, default: 1 },
+    isDeleted: { type: Boolean, default: false },
     createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     updatedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-    deletedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    deletedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
   },
   { timestamps: true }
 );

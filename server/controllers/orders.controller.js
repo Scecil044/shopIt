@@ -22,9 +22,9 @@ export const placeOrder = async (req, res, next) => {
       from: process.env.SMTP_EMAIL,
       subject: "confirmation",
       text: "Your order has been placed",
-      html: `<p>Placement successful!</p?`,
+      html: `<p>Placement successful!</p?`
     };
-    await sendEmail(email);
+    // await sendEmail(email);
   } catch (error) {
     next(error);
   }
@@ -50,8 +50,8 @@ export const getOrders = async (req, res, next) => {
         $or: [
           { title: { $regex: searchTerm, $options: "i" } },
           { shortDescription: { $regex: searchTerm, $options: "i" } },
-          { longDescription: { $regex: searchTerm, $options: "i" } },
-        ],
+          { longDescription: { $regex: searchTerm, $options: "i" } }
+        ]
       },
       { _id: req.user.id },
       { isDeleted: false },

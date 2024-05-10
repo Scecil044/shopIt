@@ -8,7 +8,7 @@ export const notifyAdmins = async (req, res, next) => {
     const systemAdministrators = await User.find({ isAdmin: true });
     const adminPhones = systemAdministrators.map((admin) => admin.phoneNumber);
 
-    await sendEmail(adminPhones);
+    // await sendEmail(adminPhones);
   } catch (error) {
     next(error);
   }

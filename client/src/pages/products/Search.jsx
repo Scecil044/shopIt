@@ -5,15 +5,31 @@ import ComponentLoader from "../../components/admin/ComponentLoader";
 export default function Search() {
   const [sidebarData, setSideBarData] = useState({});
   const [searchTerm, setSearchTerm] = useState("");
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const searchTermFromURL = urlParams.get("searchTerm");
 
+    const searchProducts = async (searchTerm) => {
+      try {
+        const res = await fetch(`/api/products/search?${searchTerm}`);
+        const data = await res.json();
+        if (data.success === false) {
+          console.log(data.message);
+          return;
+        }
+        setProducts(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     if (searchTermFromURL) {
       setSearchTerm(searchTermFromURL);
+      searchProducts(searchTerm);
     }
-  }, [location.search]);
+  }, [location.search, searchTerm]);
 
   return (
     <div className="min-h-screen">
@@ -40,7 +56,11 @@ export default function Search() {
                 className="rounded-2xl py-1 md:py-2 px-4"
               />
             </form>
-            <img src="/search.png" alt="search image" className="absolute h-64 top-0" />
+            <img
+              src="/search.png"
+              alt="search image"
+              className="absolute h-64 top-0"
+            />
           </div>
 
           <div>
